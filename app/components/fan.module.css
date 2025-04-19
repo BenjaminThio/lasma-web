@@ -1,0 +1,23 @@
+.fan {
+    background-image: url('./../../public/images/yi-fan-1.png');
+    width: 20vw;
+    height: 55dvh;
+    background-size: 100% 100%;
+    animation: rotate 2s infinite linear;
+}
+  
+.fan:active {
+    background-image: url('./../../public/images/yi-fan-2.png');
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "apps": {
+        "abcd-12345-efghi-67890-jklmn-appid": {
+            "ownerUUID": "",
+            "info": {
+                "name": "",
+                "description": "",
+                "thumbnail": "",
+                "category": ""
+            },
+            "leaderboard": {
+                "abcd-12345-efghi-67890-jklmn-userid": {
+                    "name": "",
+                    "score": 50,
+                    "datetime": ""
+                }
+            },
+            "isGlobal": true
+        }
+    }
+}

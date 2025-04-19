@@ -1,0 +1,120 @@
+.background {
+    background: url('./../../public/images/background.png');
+    background-size: 100% 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(6, 35, 50);
+}
+
+.main-container {
+    background-color: rgba(255, 255, 255, 0.2);
+    width: 25rem;
+    height: 30rem;
+    border: 3px rgba(255, 255, 255, 0.3) solid;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.input-wrapper {
+    width: 80%;
+    text-align: center;
+    border-bottom: 2px solid rgb(6, 35, 50);
+    display: flex;
+    flex-direction: row;
+}
+
+.icon {
+    transition: 0.5s;
+}
+
+.icon:hover {
+    font-size: large;
+}
+
+.input {
+    background-color: transparent;
+    width: 100%;
+    border: none;
+    font-size: medium;
+    padding-bottom: 0.5rem;
+    transition: 0.5s;
+}
+
+.input::placeholder {
+    color: rgb(6, 35, 50);   
+}
+
+.input:focus {
+    outline: none;
+    padding-left: 0.7rem;
+}
+
+.extra-options-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+}
+
+.login-button {
+    width: 80%;
+    height: 3rem;
+    border: none;
+    border-radius: 0.3rem;
+    font-size: medium;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    margin-bottom: 0.7rem;
+    transition: 0.5s;
+}
+
+.login-button:hover {
+    transform: scale(1.03);
+}
+
+.default {
+    background-color: rgb(6, 35, 50);
+    color: white;
+}
+
+.google {
+    background-color: white;
+    color: gray;
+}
+
+.underline:hover {
+    text-decoration: underline;
+}
+
+.cancel {
+    background-color: rgb(6, 35, 50);
+    height: 5rem;
+    aspect-ratio: 1;
+    color: white;
+    border: none;
+    border-radius: 2rem;
+    position: absolute;
+    top: -1.5rem;
+    right: -1.5rem;
+    transition: 0.5s;
+}
+
+.cancel:hover {
+    transform: scale(1.2);
+}
+
+.cancel-sign {
+    font-size: xx-large;
+    position: absolute;
+    bottom: 1rem;
+    left: 1.2rem;
+}

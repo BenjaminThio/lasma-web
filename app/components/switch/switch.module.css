@@ -1,0 +1,52 @@
+.main-container {
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.slider-container {
+    background-color: lightslategray;
+    width: 5rem;
+    height: 2rem;
+    border-radius: 1.5rem;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+}
+
+.morph {
+    transition: 0.5s;
+}
+
+.slider-container:hover {
+    background-color: cadetblue;
+}
+
+.check-box {
+    position: absolute;
+    opacity: 0;
+}
+
+.slider {
+    background-color: white; 
+    height: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+}
+
+.check-box:checked + .default {
+    align-self: flex-end;
+}
+
+.animated {
+    transition: 0.1s;
+}
+
+.check-box:checked + .animated {
+    transform: translateX(3rem);
+}

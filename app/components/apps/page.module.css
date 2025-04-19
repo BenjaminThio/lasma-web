@@ -1,0 +1,119 @@
+.main-container {
+    display: flex;
+    position: relative;
+}
+
+.title {
+    background: #131314;
+    border: 1px solid white;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    position: absolute;
+    top: -1.2rem;
+}
+
+.left-inner-container {
+    min-width: 50%;
+    display: flex;
+}
+
+.right-inner-container {
+    background-color: #131314;
+    border-left: 1px solid white;
+    position: sticky;
+    top: 0;
+    right: 0;
+    min-width: 30.3rem;
+    width: 50%;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.named-color-table {
+    border-collapse: collapse;
+}
+
+.named-color-table th {
+    text-align: center;
+    padding: 0.5rem;
+}
+
+.named-color-table td {
+    font-size: large;
+    padding: 0.5rem;
+}
+
+.named-color-table td > span {
+    background-color: rgb(60, 60, 60);
+    border-radius: 0.5rem;
+    padding: 0.2rem
+}
+
+.palette {
+    width: 6rem;
+    height: 3rem;
+    border-radius: 0.5rem;
+    margin: 0.5rem
+}
+
+.monitor {
+    background-color: #131314;
+    min-width: 20rem;
+    min-height: 20rem;
+    border: 1px solid white;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.settings {
+    border-collapse: separate;
+    border-spacing: 0.5rem;
+}
+
+.settings td:first-of-type, .settings td:last-of-type {
+    border: 1px solid white;
+    border-radius: 0.5rem;
+    text-align: center;
+    padding: 0.5rem;
+}
+
+.input {
+    font-family: inherit;
+    font-size: inherit;
+    text-align: center;
+    color: white;
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.copy-button {
+    font-family: inherit;
+    font-size: large;
+    background-color: transparent;
+    border: 1px solid white;
+    border-radius: 0.5rem 0 0 0.5rem;
+    padding: 0.5rem;
+    color: white;
+}
+
+.color-format-switcher {
+    font-family: inherit;
+    font-size: large;
+    font-weight: bold;
+    border: 1px solid white;
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.color-picker {
+    min-height: 1.7rem;
+    border: none;
+    border-radius: 0.2rem;
+}

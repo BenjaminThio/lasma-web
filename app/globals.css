@@ -1,0 +1,7 @@
+body {
+    margin: 0;
+    height: 100vh;
+    background-color: #131314;
+    color: white;
+    user-select: none;
+}
