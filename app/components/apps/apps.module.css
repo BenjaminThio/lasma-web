@@ -28,8 +28,12 @@
 }
 
 .app-image {
+    background-color: black;
+    background-blend-mode: multiply;
     width: 100%;
-    height: auto;
+    height: 162px;
+    /* height: auto; */
+    object-fit: cover;
     image-rendering: pixelated;
 }
 
@@ -57,6 +61,13 @@
     align-items: center;
 }
 
+.title-input {
+    text-align: center;
+    color: white;
+    border: none;
+    outline: none;
+}
+
 .tag-container {
     position: absolute;
     background-color: #282a2c;
@@ -76,6 +87,16 @@
     gap: 0.5rem;
 }
 
+.description-input {
+    resize: none;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: white;
+    font-size: medium;
+    padding: 0;
+}
+
 /* Traffic Light */
 
 .traffic-light-container {
@@ -90,4 +111,12 @@
 .light-bulb {
     aspect-ratio: 1;
     border-radius: 50%;
+}
+
+.animated {
+    transition: 0.5s;
+}
+
+.animated:hover {
+    scale: 1.5;
 }

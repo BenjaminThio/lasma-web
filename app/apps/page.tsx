@@ -9,7 +9,7 @@ export default async function AppsPage(): Promise<JSX.Element> {
         const appCards: JSX.Element[] = [];
 
         for (let i = 0; i < apps.length; i++) {
-            appCards.push(<AppCard name={apps[i].info.name} description={apps[i].info.description} status={apps[i].info.status} key={i}/>);
+            appCards.push(<AppCard thumnail={apps[i].info.thumbnail} name={apps[i].info.name} description={apps[i].info.description} status={apps[i].info.status} platforms={apps[i].info.platforms} tag={apps[i].info.tag} key={i}/>);
         }
 
         return appCards;

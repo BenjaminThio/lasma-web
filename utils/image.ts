@@ -1,3 +1,17 @@
+export async function LoadImage(path: string): Promise<File> {
+    const response: Response = await fetch(path);
+    const blob: Blob = await response.blob();
+    const splitPath: string[] = path.split('/');
+    const imageName: string = splitPath.pop() as string;
+    const file: File = new File([blob], imageName, {type: blob.type});
+
+    return file;
+}
+
+export async function ImagePath2Base64(path: string): Promise<string> {
+    return await Image2Base64(await LoadImage(path));
+}
+
 export async function Image2Base64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
         const fileReader: FileReader = new FileReader();

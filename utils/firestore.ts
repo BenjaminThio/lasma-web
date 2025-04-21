@@ -1,5 +1,5 @@
 import { getFirestore, setDoc, updateDoc, doc, collection, getDoc, getDocs, DocumentSnapshot, DocumentData, QuerySnapshot } from 'firebase/firestore';
-import app from './firebaseConfig';
+import app from './firebase-config';
 
 const db = getFirestore(app);
 
@@ -14,18 +14,39 @@ export enum Status {
     Disabled
 }
 
+export enum Platforms {
+    Windows,
+    Linux,
+    MacOs,
+    Android
+}
+
 export interface InfoProps {
     name: string;
     description: string;
     category: Category;
     status: Status;
     thumbnail: string;
+    platforms: PlatformsProps;
+    tag: Tag;
 }
 export interface AppProps {
     ownerUUID: string;
     isGlobal: boolean;
     info: InfoProps;
     leaderboard: Record<string, string>;
+}
+ export interface PlatformsProps {
+    windows: boolean;
+    linux: boolean;
+    macOs: boolean;
+    android: boolean;
+ }
+
+export enum Tag {
+    Free,
+    Paid,
+    Web
 }
 
 export async function CreateNewApp(uuid: string, props: AppProps): Promise<void> {
@@ -37,7 +58,14 @@ export async function CreateNewApp(uuid: string, props: AppProps): Promise<void>
             description: props.info.description,
             status: props.info.status,
             category: props.info.category,
-            thumbnail: props.info.thumbnail
+            thumbnail: props.info.thumbnail,
+            tag: props.info.tag,
+            platforms: {
+                windows: props.info.platforms.windows,
+                linux: props.info.platforms.linux,
+                macOs: props.info.platforms.macOs,
+                android: props.info.platforms.android
+            }
         },
         leaderboard: props.leaderboard
     });

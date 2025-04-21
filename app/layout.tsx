@@ -26,7 +26,9 @@ export default function RootLayout({children}: Readonly<{children: React.ReactNo
     return (
     <html>
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
+            <nav/>
             {children}
+            <footer/>
         </body>
     </html>
     );
