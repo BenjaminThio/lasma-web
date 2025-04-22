@@ -1,18 +1,20 @@
-import type { JSX } from 'react';
-import styles from './page.module.css';
-import Fan from './../app/components/fan';
-import { NextFont } from 'next/dist/compiled/@next/font';
+import type { NextFont } from 'next/dist/compiled/@next/font';
 import localFont from 'next/font/local';
 
 const determinationFont: NextFont = localFont({
     src: './../public/fonts/Mars_Needs_Cunnilingus.ttf'
 });
 
-export default function Home(): JSX.Element {
+const fusionPixel12px: NextFont = localFont({
+    src: './../public/fonts/fusion-pixel-12px-monospaced-zh_hans.otf'
+});
+
+export default function MainPage() {
     return (
-    <main className={`${styles.background} ${determinationFont.className}`}>
-        <h1>POP YI FAN</h1>
-        <Fan/>
-    </main>
+        <div className={fusionPixel12px.className} style={{height: '100svh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+            <h1>
+                Add a Leaderboard to your game.
+            </h1>
+        </div>
     );
 }

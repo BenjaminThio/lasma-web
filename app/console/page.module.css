@@ -1,0 +1,121 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.table {
+    border-collapse: separate;
+    border-spacing: 0 5px;
+    font-size: x-large;
+}
+
+.table tr {
+    background-color: #282a2c;
+    height: 5rem;
+    transition: 0.5s;
+}
+
+.table tr:not(:first-of-type) > td:first-of-type, .table tr:not(:first-of-type) > td:last-of-type {
+    transition: 0.5s;
+}
+
+.table tr:not(:first-of-type):hover {
+    scale: 1.03;
+}
+
+.table tr:not(:first-of-type):hover > td:first-of-type {
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    background-color: aqua;
+}
+
+.table tr:not(:first-of-type):hover > td:last-of-type {
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    background-color: red;
+}
+
+.table th, .table td {
+    padding: 1rem;
+}
+
+.table tr:first-of-type > th:first-of-type {
+    border-top-left-radius: 0.5rem;
+}
+
+.table tr:first-of-type > th:last-of-type {
+    border-top-right-radius: 0.5rem;
+}
+
+.table tr:last-of-type > td:first-of-type {
+    border-bottom-left-radius: 0.5rem;
+}
+
+.table tr:last-of-type > td:last-of-type {
+    border-bottom-right-radius: 0.5rem;
+}
+
+.zoom > * {
+    transition: 0.5s;
+}
+
+.zoom:hover > * {
+    scale: 1.5;
+}
+
+
+
+
+
+
+
+
+.list-container {
+    background-color: #1b1b1b;
+    width: 100%;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.list-container > .item-container:first-of-type {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
+.list-container > .item-container:last-of-type {
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.item-container {
+    background-color: #282a2c;
+    width: 90%;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    font-size: x-large;
+    transition: 0.5s;
+}
+
+.item-container:not(:first-of-type, .placeholder-container):hover {
+    border-radius: 0.5rem;
+    transform: scale(1.03);
+}
+
+.placeholder-container {
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.logo {
+    image-rendering: pixelated;
+    width: auto;
+    height: 4.7rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
