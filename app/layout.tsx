@@ -12,6 +12,9 @@ import placeholder from './../public/images/galaxy.png';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFlushed } from '@fortawesome/free-solid-svg-icons';
+import { GetUser } from './auth/auth';
+import { UserProps } from '@/utils/firestore';
+import LogOut from './components/log-out';
 config.autoAddCss = false;
 
 const geistSans = Geist({
@@ -33,7 +36,9 @@ const fusionPixel12px: NextFont = localFont({
     src: './../public/fonts/fusion-pixel-12px-monospaced-zh_hans.otf'
 });
 
-export default function RootLayout({children}: Readonly<{children: React.ReactNode;}>): JSX.Element {
+export default async function RootLayout({children}: Readonly<{children: React.ReactNode;}>): Promise<JSX.Element> {
+    const user: UserProps | null = await GetUser();
+
     return (
     <html>
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
@@ -45,17 +50,33 @@ export default function RootLayout({children}: Readonly<{children: React.ReactNo
                 </Link>
                 </div>
                 <div style={{display: 'flex'}}>
+                    <Link href='/apps' style={{padding: '1rem', display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'white'}}>
+                        Apps
+                    </Link>
                     <Link href='/console' style={{padding: '1rem', display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'white'}}>
                         Go to console
                     </Link>
-                    <Link href='/auth' style={{padding: '1rem', display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'white'}}>
-                        Sign Up
-                    </Link>
-                    <Link href='/auth' style={{padding: '1rem', display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'white'}}>
-                        Sign In
-                    </Link>
+                    {
+                        user === null
+                        ?
+                        <>
+                            <Link href='/auth' style={{padding: '1rem', display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'white'}}>
+                                Sign Up
+                            </Link>
+                            <Link href='/auth' style={{padding: '1rem', display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'white'}}>
+                                Login
+                            </Link>
+                        </>
+                        :
+                        <>
+                            <div style={{padding: '1rem', display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'white'}}>
+                                {user.info.username}
+                            </div>
+                            <LogOut/>
+                        </>
+                    }
                     <span style={{padding: '1rem', display: 'flex', alignItems: 'center'}}>
-                        <Image src={placeholder} width={0} height={0} alt='placeholder' style={{width: '50px', height: '50px', objectFit: 'cover', borderRadius: '50%'}}/>
+                        <Image src={placeholder} width={0} height={0} alt='placeholder' style={{width: '2.5rem', height: '2.5rem', objectFit: 'cover', borderRadius: '50%'}}/>
                     </span>
                 </div>
             </nav>

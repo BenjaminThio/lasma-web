@@ -6,6 +6,8 @@ import styles from './page.module.css';
 import Switch from '../components/switch/switch';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCube, faEye, faPencil, faTable, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { GetUser } from '../auth/auth';
+import { UserProps } from '@/utils/firestore';
 
 const determinationFont: NextFont = localFont({
     src: './../../public/fonts/Mars_Needs_Cunnilingus.ttf'
@@ -80,14 +82,23 @@ export default function ConsolePage(): JSX.Element {
         <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
             <div style={{width: '100%', display: 'flex', justifyContent: 'space-between'}}>
                 <span><FontAwesomeIcon icon={faTable}/>Game List</span>
-                <select defaultValue={10} onChange={(event: ChangeEvent<HTMLSelectElement>) => {
-                    setMaxValueTest(parseInt(event.target.value));
-                }}>
-                    <option value={101}>Show All</option>
-                    <option value={10}>10</option>
-                    <option value={50}>50</option>
-                    <option value={100}>100</option>
-                </select>
+                <div>
+                    <button onClick={async () => {
+                        const user: UserProps | null = await GetUser();
+
+                        if (user !== null) {
+                            
+                        }
+                    }}>Create New App</button>
+                    <select defaultValue={10} onChange={(event: ChangeEvent<HTMLSelectElement>) => {
+                        setMaxValueTest(parseInt(event.target.value));
+                    }}>
+                        <option value={101}>Show All</option>
+                        <option value={10}>10</option>
+                        <option value={50}>50</option>
+                        <option value={100}>100</option>
+                    </select>
+                </div>
             </div>
             <table className={styles.table}>
                 <tbody>

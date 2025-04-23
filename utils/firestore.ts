@@ -41,7 +41,7 @@ export interface AppProps {
     linux: boolean;
     macOs: boolean;
     android: boolean;
- }
+}
 
 export enum Tag {
     Free,
@@ -96,6 +96,51 @@ export async function GetAllApps(): Promise<AppProps[]> {
     });
 
     return apps;
+}
+
+export interface UserProps {
+    info: UserInfoProps,
+    apps: string[],
+    session: string
+}
+
+export interface UserInfoProps {
+    username: string,
+    password: string,
+    salt: string,
+    email: string
+}
+
+export type Email = `${string}@${string}.com`;
+
+export async function UpdateUser(uuid: string, field: AppField, value: AppFieldValue): Promise<void> {
+    await updateDoc(doc(db, 'apps', uuid), {
+        [field]: value
+    });
+}
+
+export async function AddNewUser(email: Email, session: string, {username, password, salt}: UserInfoProps) {
+    await setDoc(doc(db, 'users', email), {
+        session: session, 
+        info : {
+            username: username,
+            password: password,
+            salt: salt,
+            email: email
+        },
+        apps: []
+    } as UserProps, {merge: false});
+}
+
+export async function GetAllUsers(): Promise<UserProps[]> {
+    const querySnapshot: QuerySnapshot<DocumentData, DocumentData> = await getDocs(collection(db, 'users'));
+    const users: UserProps[] = [];
+
+    querySnapshot.forEach((user) => {
+        users.push(user.data() as UserProps);
+    });
+
+    return users;
 }
 
 export default db;

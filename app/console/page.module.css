@@ -30,6 +30,23 @@
     background-color: aqua;
 }
 
+.table tr:not(:first-of-type) > td:nth-child(5) {
+    transition: 0.5s;
+}
+
+.table tr:not(:first-of-type) > td:nth-child(6) {
+    transition: 0.5s;
+}
+
+.table tr:not(:first-of-type) > td:nth-child(5):hover {
+    background-color: lime;
+}
+
+.table tr:not(:first-of-type) > td:nth-child(6):hover {
+    background-color: yellow;
+    color: black;
+}
+
 .table tr:not(:first-of-type):hover > td:last-of-type {
     border-top-right-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
