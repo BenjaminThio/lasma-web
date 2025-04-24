@@ -19,7 +19,7 @@ export type Cookies = {
 }
 
 const SESSION_COOKIE_KEY: string = 'session-id';
-const SESSION_COOKIE_EXPIRATION_DURATION: number = 30 * 60 * 1000;
+const SESSION_COOKIE_EXPIRATION_DURATION: number = 7 * 24 * 60 * 60 * 1000;
 
 export async function HashPassword(password: string, salt: string): Promise<string> {
     return new Promise((resolve, reject) => {

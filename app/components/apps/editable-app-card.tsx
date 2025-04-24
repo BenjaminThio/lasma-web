@@ -1,5 +1,5 @@
 'use client';
-import  { type JSX, type ChangeEvent, useState, useEffect } from 'react';
+import  { type JSX, type ChangeEvent, useState, useEffect, useRef } from 'react';
 import type { NextFont } from 'next/dist/compiled/@next/font';
 import localFont from 'next/font/local';
 import styles from './apps.module.css';
@@ -9,8 +9,11 @@ import { Image2Base64, ImagePath2Base64 } from '@/utils/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWindows, faLinux, faApple, faAndroid } from '@fortawesome/free-brands-svg-icons';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
-import { CreateNewApp, Status, Tag } from '@/utils/firestore';
+import { CreateNewApp, Status, Tag, UpdateUser } from '@/utils/firestore';
 import LightBulb from './light-bulb';
+import { GetUser } from '@/app/auth/auth';
+import { UserProps } from '@/utils/firestore';
+import { redirect } from 'next/navigation';
 
 const fusionPixel12px: NextFont = localFont({
     src: './../../../public/fonts/fusion-pixel-12px-monospaced-zh_hans.otf'
@@ -34,12 +37,22 @@ export default function EditableAppCard(): JSX.Element {
     const [status, setStatus] = useState<Status>(Status.Ready);
     const [thumbnail, setThumbnail] = useState<string>('');
     const [tag, setTag] = useState<Tag>(Tag.Free);
+    const userRef = useRef<UserProps | null>(null);
 
     useEffect(() => {
         async function test() {
             setThumbnail(await ImagePath2Base64(placeholder.src));
         };
+        async function FetachPage() {
+            const user: UserProps | null = await GetUser();
+            userRef.current = user;
 
+            if (user === null) {
+                redirect('/auth');
+            }
+        }
+        
+        FetachPage();
         test();
     }, []);
 
@@ -69,7 +82,7 @@ export default function EditableAppCard(): JSX.Element {
                     className={styles['app-image']}
                     alt='placeholder'
                     unoptimized/>
-                }
+                } 
             </label>
             <div className={styles['traffic-light-container']}>
                 <LightBulb color={status == Status.Ready ? 'springgreen' : ''} callback={() => setStatus(Status.Ready)} animated/>
@@ -111,6 +124,8 @@ export default function EditableAppCard(): JSX.Element {
             }}/>
         </div>
         <button onClick={async () => {
+            let user: UserProps;
+
             if (description.length > 60 || description.length === 0) {
                 alert('GAY');
                 return;
@@ -119,26 +134,34 @@ export default function EditableAppCard(): JSX.Element {
                 alert('GAY?');
                 return;
             }
-            await CreateNewApp(crypto.randomUUID(), {
-                info: {
-                    name: name,
-                    description: description,
-                    thumbnail: thumbnail,
-                    category: 'idk',
-                    status: status,
-                    platforms: {
-                        windows: isWindows,
-                        linux: isLinux,
-                        macOs: isMacOs,
-                        android: isAndroid
+            if (userRef.current !== null) {
+                user = userRef.current;
+                const uuid = crypto.randomUUID();
+                
+                UpdateUser(user.info.email, 'apps', [...user.apps, uuid]);
+
+                await CreateNewApp(uuid, {
+                    info: {
+                        name: name,
+                        description: description,
+                        thumbnail: thumbnail,
+                        category: 'idk',
+                        status: status,
+                        platforms: {
+                            windows: isWindows,
+                            linux: isLinux,
+                            macOs: isMacOs,
+                            android: isAndroid
+                        },
+                        tag: tag
                     },
-                    tag: tag
-                },
-                ownerUUID: '',
-                isGlobal: true,
-                leaderboard: {}
-            });
-            alert('You created an app!');
+                    ownerUUID: user.info.email,
+                    isGlobal: true,
+                    leaderboard: {}
+                });
+            }
+            //alert('You created an app!');
+            redirect('/console');
         }} className={`${fusionPixel10px.className}`} style={{backgroundColor: '#282a2c', color: 'white', bottom: 0, border: 'none', borderRadius: '0.2rem'}}>
             SAVE
         </button>

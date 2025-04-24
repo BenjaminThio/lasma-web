@@ -113,8 +113,8 @@ export interface UserInfoProps {
 
 export type Email = `${string}@${string}.com`;
 
-export async function UpdateUser(uuid: string, field: AppField, value: AppFieldValue): Promise<void> {
-    await updateDoc(doc(db, 'apps', uuid), {
+export async function UpdateUser(email: string, field: string, value: string | string[]): Promise<void> {
+    await updateDoc(doc(db, 'users', email), {
         [field]: value
     });
 }

@@ -1,13 +1,15 @@
 'use client';
-import { type JSX,type CSSProperties, type ChangeEvent, useState } from 'react';
+import { type JSX,type CSSProperties, type ChangeEvent, useState, useEffect, useRef } from 'react';
 import type { NextFont } from 'next/dist/compiled/@next/font';
 import localFont from 'next/font/local';
 import styles from './page.module.css';
 import Switch from '../components/switch/switch';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCube, faEye, faPencil, faTable, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { redirect } from 'next/navigation';
 import { GetUser } from '../auth/auth';
-import { UserProps } from '@/utils/firestore';
+import { GetApp, UserProps } from '@/utils/firestore';
+import { AppProps } from '@/utils/firestore';
 
 const determinationFont: NextFont = localFont({
     src: './../../public/fonts/Mars_Needs_Cunnilingus.ttf'
@@ -49,23 +51,49 @@ function Row({header = false, cells}: RowProps): JSX.Element {
 
 export default function ConsolePage(): JSX.Element {
     const [maxValueTest, setMaxValueTest] = useState<number>(10);
+    const userRef = useRef<UserProps | null>(null);
+    const [rows, setRows] = useState<JSX.Element[]>([]);
 
-    function RenderRow(gameCount: number, maxValue: number) {
+    useEffect(() => {
+        async function FetchUser() {
+            const user: UserProps | null = await GetUser();
+            if (user === null) {
+                redirect('/auth');
+            }
+            else {
+                userRef.current = user;
+                RenderRow(maxValueTest);
+            }
+        }
+        
+        FetchUser();
+    }, [maxValueTest]);
+
+    async function RenderRow(maxValue: number) {
         const cells: JSX.Element[] = [];
 
-        for (let i: number = 1; i <= (gameCount > (maxValue > 100 ? 1000 : maxValue) ? (maxValue > 100 ? 1000 : maxValue) : gameCount); i++) {
-            cells.push(<Row key={i} cells={[
-                {content: `${i.toString()}.`},
-                {content: 'Benjamin Thio Zi Liang'},
-                {content: '14348e63-297b-439c-b087-17d951615461'},
-                {content: <Switch animated/>, style: {textAlign: 'center'}},
-                {content: <FontAwesomeIcon icon={faEye}/>, className: styles.zoom, style: {textAlign: 'center'}},
-                {content: <FontAwesomeIcon icon={faPencil}/>, className: styles.zoom, style: {textAlign: 'center'}},
-                {content: <FontAwesomeIcon icon={faTrashCan}/>, className: styles.zoom, style: {textAlign: 'center'}}
-            ]}/>);
+        if (userRef.current !== null) {
+            const appCount: number = userRef.current.apps.length;
+
+            for (let i: number = 1; i <= (appCount > (maxValue > 100 ? 1000 : maxValue) ? (maxValue > 100 ? 1000 : maxValue) : appCount); i++) {
+                const appId: string = userRef.current.apps[i - 1];
+                const app: AppProps | null = await GetApp(appId);
+
+                if (app !== null) {
+                    cells.push(<Row key={i} cells={[
+                        {content: `${i.toString()}.`},
+                        {content: app.info.name},
+                        {content: appId},
+                        {content: <Switch animated/>, style: {textAlign: 'center'}},
+                        {content: <FontAwesomeIcon icon={faEye}/>, className: styles.zoom, style: {textAlign: 'center'}},
+                        {content: <FontAwesomeIcon icon={faPencil}/>, className: styles.zoom, style: {textAlign: 'center'}},
+                        {content: <FontAwesomeIcon icon={faTrashCan}/>, className: styles.zoom, style: {textAlign: 'center'}}
+                    ]}/>);
+                }
+            }
         }
 
-        return cells;
+        setRows(cells);
     }
 
     return (
@@ -83,12 +111,8 @@ export default function ConsolePage(): JSX.Element {
             <div style={{width: '100%', display: 'flex', justifyContent: 'space-between'}}>
                 <span><FontAwesomeIcon icon={faTable}/>Game List</span>
                 <div>
-                    <button onClick={async () => {
-                        const user: UserProps | null = await GetUser();
-
-                        if (user !== null) {
-                            
-                        }
+                    <button onClick={() => {
+                        redirect('/create-app');
                     }}>Create New App</button>
                     <select defaultValue={10} onChange={(event: ChangeEvent<HTMLSelectElement>) => {
                         setMaxValueTest(parseInt(event.target.value));
@@ -111,9 +135,7 @@ export default function ConsolePage(): JSX.Element {
                         {content: 'EDIT'},
                         {content: 'DELETE'}
                     ]}/>
-                    {
-                        RenderRow(49, maxValueTest)
-                    }
+                    {rows}
                 </tbody>
             </table>
         </div>
