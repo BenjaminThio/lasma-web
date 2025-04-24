@@ -126,6 +126,8 @@ export default function EditableAppCard(): JSX.Element {
         <button onClick={async () => {
             let user: UserProps;
 
+
+            console.log('Hello');
             if (description.length > 60 || description.length === 0) {
                 alert('GAY');
                 return;
