@@ -42,7 +42,7 @@ export default function LasmaLeaderboardPage(): JSX.Element {
     <div className={`${styles['main-container']} ${determinationFont.className}`}> 
         <div className={styles['list-container']}>
             <Image src='/images/logo.png' width={0} height={0} sizes='100dvw' draggable={false} className={styles.logo} alt='logo' unoptimized/>
-            {generateNameList(50)}
+            {generateNameList(0)}
         </div>
         <Test/>
     </div>

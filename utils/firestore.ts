@@ -34,9 +34,10 @@ export interface AppProps {
     ownerUUID: string;
     isGlobal: boolean;
     info: InfoProps;
-    leaderboard: Record<string, string>;
+    leaderboard: LeaderboardProps;
 }
- export interface PlatformsProps {
+
+export interface PlatformsProps {
     windows: boolean;
     linux: boolean;
     macOs: boolean;
@@ -141,6 +142,28 @@ export async function GetAllUsers(): Promise<UserProps[]> {
     });
 
     return users;
+}
+
+export interface PlayerProps {
+    name: string,
+    score: number,
+    datetime: string
+}
+
+export interface LeaderboardProps {
+    [id: string]: PlayerProps;
+}
+
+export async function AddNewPlayer(uuid: string, playerConfig: PlayerProps) {
+    await updateDoc(doc(db, 'apps', uuid), {
+        [`leaderboard.${crypto.randomUUID()}`]: playerConfig
+    });
+}
+
+export async function UpdatePlayer(uuid: string, playerProp: string, playerConfig: PlayerProps) {
+    await updateDoc(doc(db, 'apps', uuid), {
+        [`leaderboard.${playerProp}`]: playerConfig
+    });
 }
 
 export default db;

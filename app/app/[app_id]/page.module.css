@@ -1,0 +1,97 @@
+.main-container {
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: x-large;
+}
+
+.table-wrapper {
+    background-color: #1b1b1b;
+    width: 60rem;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-items: top;
+}
+
+.table-container {
+    border-collapse: separate;
+    border-spacing: 0 5px;
+    height: fit-content;
+    width: 90%;
+}
+
+.table-container tr {
+    height: 5rem;
+    transition: 0.5s;
+}
+
+.table-container tr > * {
+    background-color: #282a2c;
+}
+
+.table-container tr:not(:first-child):hover {
+    scale: 1.03;
+}
+
+.table-container tr:not(:first-child) > td:first-of-type {
+    transition: 0.5s;
+}
+
+.table-container tr:not(:first-child) > td:last-of-type {
+    transition: 0.5s;
+}
+
+.table-container tr:not(:first-child):hover > td:first-of-type {
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    background-color: aqua;
+}
+
+.table-container tr:not(:first-child):hover > td:last-of-type {
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+.table-container th, .table-container td {
+    padding: 1rem;
+}
+
+.table-container th:nth-child(-n+3) {
+    text-align: left;
+}
+
+.table-container td:nth-last-child(-n+2) {
+    text-align: center;
+}
+
+.table-container tr:first-of-type > th:first-of-type {
+    border-top-left-radius: 0.5rem;
+}
+
+.table-container tr:first-of-type > th:last-of-type {
+    border-top-right-radius: 0.5rem;
+}
+
+.table-container tr:last-of-type > td:first-of-type {
+    border-bottom-left-radius: 0.5rem;
+}
+
+.table-container tr:last-of-type > td:last-of-type {
+    border-bottom-right-radius: 0.5rem;
+}
+
+.alert-container {
+    background-color: #282a2c;
+    width: 90%;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    margin-bottom: 2rem;
+}
