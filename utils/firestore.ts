@@ -1,5 +1,6 @@
-import { getFirestore, setDoc, updateDoc, doc, collection, getDoc, getDocs, DocumentSnapshot, DocumentData, QuerySnapshot } from 'firebase/firestore';
+import { getFirestore, setDoc, updateDoc, doc, collection, getDoc, getDocs, DocumentSnapshot, DocumentData, QuerySnapshot, deleteDoc } from 'firebase/firestore';
 import app from './firebase-config';
+import { GetUser } from '@/app/auth/auth';
 
 const db = getFirestore(app);
 
@@ -164,6 +165,17 @@ export async function UpdatePlayer(uuid: string, playerProp: string, playerConfi
     await updateDoc(doc(db, 'apps', uuid), {
         [`leaderboard.${playerProp}`]: playerConfig
     });
+}
+
+export async function DeleteApp(uuid: string) {
+    const user: UserProps | null = await GetUser();
+
+    if (user !== null) {
+        const apps = user.apps;
+
+        await UpdateUser(user.info.email, 'apps', apps.filter(appId => appId !== uuid));
+        await deleteDoc(doc(db, 'apps', uuid));
+    }
 }
 
 export default db;

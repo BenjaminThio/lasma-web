@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCube, faEye, faPencil, faTable, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { redirect } from 'next/navigation';
 import { GetUser } from '../auth/auth';
-import { GetApp, UserProps } from '@/utils/firestore';
+import { DeleteApp, GetApp, UpdateApp, UserProps } from '@/utils/firestore';
 import { AppProps } from '@/utils/firestore';
 
 const determinationFont: NextFont = localFont({
@@ -19,6 +19,7 @@ interface Cell {
     content: string | JSX.Element;
     className?: string | undefined;
     style?: CSSProperties | undefined;
+    callback?: () => void | Promise<void>;
 }
 
 interface RowProps {
@@ -34,15 +35,23 @@ function Row({header = false, cells}: RowProps): JSX.Element {
         const cell: Cell = cells[i];
 
         rowCells.push(
-        header
-        ?
-        <th className={cell.className} style={cell.style} key={i} >
-            {cell.content}
-        </th>
-        :
-        <td className={cell.className} style={cell.style} key={i}>
-            {cell.content}
-        </td>
+            header
+            ?
+            <th className={cell.className} style={cell.style} key={i}>
+                {cell.content}
+            </th>
+            :
+            (
+                cell.callback === undefined
+                ?
+                <td className={cell.className} style={cell.style} key={i}>
+                    #{cell.content}
+                </td>
+                :
+                <td className={cell.className} style={cell.style} key={i} onClick={cell.callback}>
+                    {cell.content}
+                </td>
+            )
         );
     }
 
@@ -84,10 +93,18 @@ export default function ConsolePage(): JSX.Element {
                         {content: `${i.toString()}.`},
                         {content: app.info.name},
                         {content: appId},
-                        {content: <Switch animated/>, style: {textAlign: 'center'}},
-                        {content: <FontAwesomeIcon icon={faEye}/>, className: styles.zoom, style: {textAlign: 'center'}},
+                        {content: <Switch defaultChecked={app.isGlobal} callback={async (checked) => {
+                            await UpdateApp(appId, 'isGlobal', checked);
+                        }} animated/>, style: {textAlign: 'center'}},
+                        {content: <FontAwesomeIcon icon={faEye}/>, className: styles.zoom, style: {textAlign: 'center'}, callback: () => {
+                            console.log('IN');
+                            redirect(`/app/${appId}`);
+                        }},
                         {content: <FontAwesomeIcon icon={faPencil}/>, className: styles.zoom, style: {textAlign: 'center'}},
-                        {content: <FontAwesomeIcon icon={faTrashCan}/>, className: styles.zoom, style: {textAlign: 'center'}}
+                        {content: <FontAwesomeIcon icon={faTrashCan}/>, className: styles.zoom, style: {textAlign: 'center'}, callback: async () => {
+                            await DeleteApp(appId);
+                            RenderRow(maxValue);
+                        }}
                     ]}/>);
                 }
             }

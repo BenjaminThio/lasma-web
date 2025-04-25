@@ -1,19 +1,15 @@
-import type { NextFont } from 'next/dist/compiled/@next/font';
-import localFont from 'next/font/local';
+import { redirect } from 'next/navigation';
 
-const fusionPixel12px: NextFont = localFont({
-    src: './../../public/fonts/fusion-pixel-12px-monospaced-zh_hans.otf'
-});
+interface TestProps {
+    redirectRoute: string;
+}
 
-export default function ConsolePage() {
+export default function Test({redirectRoute}: TestProps) {
     return (
-        <div className={fusionPixel12px.className} style={{
-            minHeight: '100svh',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center'
+        <td onClick={() => {
+            redirect(`/app/${redirectRoute}`);
         }}>
-            Hello World!!!
-        </div>
+
+        </td>
     );
 }
