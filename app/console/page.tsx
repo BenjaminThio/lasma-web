@@ -5,14 +5,14 @@ import localFont from 'next/font/local';
 import styles from './page.module.css';
 import Switch from '../components/switch/switch';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCube, faEye, faPencil, faTable, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faPencil, faTable, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { redirect } from 'next/navigation';
 import { GetUser } from '../auth/auth';
 import { DeleteApp, GetApp, UpdateApp, UserProps } from '@/utils/firestore';
 import { AppProps } from '@/utils/firestore';
 
 const determinationFont: NextFont = localFont({
-    src: './../../public/fonts/Mars_Needs_Cunnilingus.ttf'
+    src: './../../public/fonts/Monospaced_Mars_Needs_Cunnilingus.ttf'
 });
 
 interface Cell {
@@ -45,7 +45,7 @@ function Row({header = false, cells}: RowProps): JSX.Element {
                 cell.callback === undefined
                 ?
                 <td className={cell.className} style={cell.style} key={i}>
-                    #{cell.content}
+                    {cell.content}
                 </td>
                 :
                 <td className={cell.className} style={cell.style} key={i} onClick={cell.callback}>
@@ -100,9 +100,12 @@ export default function ConsolePage(): JSX.Element {
                             console.log('IN');
                             redirect(`/app/${appId}`);
                         }},
-                        {content: <FontAwesomeIcon icon={faPencil}/>, className: styles.zoom, style: {textAlign: 'center'}},
+                        {content: <FontAwesomeIcon icon={faPencil}/>, className: styles.zoom, style: {textAlign: 'center'}, callback: () => {
+                            redirect(`/app/${appId}/edit`);
+                        }},
                         {content: <FontAwesomeIcon icon={faTrashCan}/>, className: styles.zoom, style: {textAlign: 'center'}, callback: async () => {
                             await DeleteApp(appId);
+                            userRef.current = await GetUser();
                             RenderRow(maxValue);
                         }}
                     ]}/>);
@@ -115,24 +118,44 @@ export default function ConsolePage(): JSX.Element {
 
     return (
     <div className={`${styles['main-container']} ${determinationFont.className}`}>
-        <div style={{height: '13rem', width: '23rem', position: 'relative', backgroundColor: '#282a2c', borderRadius: '1rem'}}>
-            <span style={{position: 'absolute', top: '1rem', left: '1rem'}}>
-                My Games
-            </span>
-            <FontAwesomeIcon icon={faCube} style={{position: 'absolute', bottom: '1rem', left: '1rem'}}/>
-            <span style={{position: 'absolute', bottom: '1rem', right: '1rem'}}>
-                {maxValueTest}
-            </span>
-        </div>
-        <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-            <div style={{width: '100%', display: 'flex', justifyContent: 'space-between'}}>
-                <span><FontAwesomeIcon icon={faTable}/>Game List</span>
-                <div>
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', flexGrow: 1, fontSize: 'x-large'}}>
+            <div style={{display: 'flex', justifyContent: 'space-between'}} className={styles['default-width']}>
+                <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: 'xx-large'}}>
+                    <FontAwesomeIcon icon={faTable}/>
+                    Game List
+                    <div style={{backgroundColor: 'red', width: '3ch', padding: '0.4rem', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '0.5rem', fontSize: 'large'}}>
+                        {userRef.current?.apps.length}
+                    </div>
+                </div>
+                
+                <div style={{display: 'flex', gap: '0.5rem'}}>
                     <button onClick={() => {
                         redirect('/create-app');
-                    }}>Create New App</button>
+                    }} style={{
+                        color: 'white',
+                        backgroundColor: '#282a2c',
+                        border: 'none',
+                        borderRadius: '50%',
+                        width: '2.5rem',
+                        aspectRatio: 1,
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        fontWeight: 'bolder',
+                        fontFamily: 'inherit',
+                        fontSize: 'x-large'
+                    }}>+</button>
                     <select defaultValue={10} onChange={(event: ChangeEvent<HTMLSelectElement>) => {
                         setMaxValueTest(parseInt(event.target.value));
+                    }} style={{
+                        border: 'none',
+                        outline: 'none',
+                        fontFamily: 'inherit',
+                        color: 'white',
+                        backgroundColor: '#282a2c',
+                        borderRadius: '0.5rem',
+                        paddingLeft: '0.5rem',
+                        fontSize: 'x-large'
                     }}>
                         <option value={101}>Show All</option>
                         <option value={10}>10</option>
@@ -144,17 +167,35 @@ export default function ConsolePage(): JSX.Element {
             <table className={styles.table}>
                 <tbody>
                     <Row header cells={[
-                        {content: 'NO.', style: {textAlign: 'left'}},
-                        {content: 'TITLE', style: {textAlign: 'left'}},
-                        {content: 'API KEY', style: {textAlign: 'left'}},
-                        {content: 'PUBLIC'},
-                        {content: 'VIEW'},
-                        {content: 'EDIT'},
-                        {content: 'DELETE'}
+                        {content: 'NO.', style: {textAlign: 'left', minWidth: '5ch'}},
+                        {content: 'TITLE', style: {textAlign: 'left', minWidth: '20ch'}},
+                        {content: 'API KEY', style: {textAlign: 'left', minWidth: '36ch'}},
+                        {content: 'PUBLIC', style: {minWidth: '6ch'}},
+                        {content: 'VIEW', style: {minWidth: '4ch'}},
+                        {content: 'EDIT', style: {minWidth: '4ch'}},
+                        {content: 'DELETE', style: {minWidth: '6ch'}}
                     ]}/>
                     {rows}
                 </tbody>
             </table>
+            {
+                userRef.current !== null && userRef.current.apps.length > 0
+                ? 
+                null
+                :
+                <div style={{
+                    backgroundColor: '#282a2c',
+                    flexGrow: 1,
+                    marginBottom: '1rem',
+                    borderBottomLeftRadius: '0.5rem',
+                    borderBottomRightRadius: '0.5rem',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }} className={styles['default-width']}>
+                    There is nothing here.
+                </div>
+            }
         </div>
     </div>
     );

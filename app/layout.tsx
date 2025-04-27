@@ -11,10 +11,11 @@ import Image from 'next/image';
 import placeholder from './../public/images/galaxy.png';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFlushed } from '@fortawesome/free-solid-svg-icons';
+import { faAtom } from '@fortawesome/free-solid-svg-icons';
 import { GetUser } from './auth/auth';
 import { UserProps } from '@/utils/firestore';
 import LogOut from './components/log-out';
+import { faFacebook, faGithub, faInstagram } from '@fortawesome/free-brands-svg-icons';
 config.autoAddCss = false;
 
 const geistSans = Geist({
@@ -43,12 +44,12 @@ export default async function RootLayout({children}: Readonly<{children: React.R
     <html>
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
             <nav className={fusionPixel12px.className} style={{overflow: 'hidden', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                <div style={{padding: '1rem', }}>
-                <FontAwesomeIcon icon={faFlushed}/>
-                <Link href='/' style={{textDecoration: 'none', color: 'white'}}>
-                    LASMA
-                </Link>
-                </div>
+                <label style={{padding: '1rem', display: 'flex', gap: '0.5rem'}}>
+                    <FontAwesomeIcon icon={faAtom}/>
+                    <Link href='/' style={{textDecoration: 'none', color: 'white'}}>
+                        LASMA STUDIO
+                    </Link>
+                </label>
                 <div style={{display: 'flex'}}>
                     <Link href='/apps' style={{padding: '1rem', display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'white'}}>
                         Apps
@@ -81,7 +82,87 @@ export default async function RootLayout({children}: Readonly<{children: React.R
                 </div>
             </nav>
             {children}
-            <footer/>
+            <footer className={fusionPixel12px.className} style={{
+                display: 'flex',
+                flexDirection: 'column',
+                fontSize: 'x-large',
+                padding: '5rem'
+            }}>
+                <div style={{width: '100%', display: 'flex', justifyContent: 'space-around'}}>
+                <span style={{display: 'flex', flexDirection: 'column', gap: '2rem'}}>
+                    <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
+                        <div style={{fontWeight: 'bold'}}>Brand</div>
+                        <div style={{fontSize: 'large'}}>Lasma 2025 - 2025 © All rights reserved</div>
+                    </div>
+                    <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
+                        <div style={{fontWeight: 'bold'}}>
+                            Other Projects
+                        </div>
+                        <div style={{display: 'flex', flexDirection: 'column', gap: '0.5rem'}}>
+                            <div style={{fontSize: 'large'}}>Pop Yi Fan</div>
+                            <div style={{fontSize: 'large'}}>Dafans</div>
+                            <div style={{fontSize: 'large'}}>Stop Syurga</div>
+                            <div style={{fontSize: 'large'}}>SPath of Chemistry</div>
+                        </div>
+                    </div>
+                </span>
+                <span style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
+                    <div style={{fontWeight: 'bold'}}>
+                        The Only Developer
+                    </div>
+                    <div style={{fontSize: 'large'}}>
+                        Benjamin Thio
+                    </div>
+                </span>
+                <span style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
+                    <div style={{fontWeight: 'bold'}}>
+                        Copyrights
+                    </div>
+                    <div style={{display: 'flex', flexDirection: 'column', gap: '0.5rem'}}>
+                        <div style={{fontSize: 'large'}}>
+                            Fonts
+                        </div>
+                        <div style={{fontSize: 'large'}}>
+                            Images
+                        </div>
+                        <div style={{fontSize: 'large'}}>
+                            Idk what to put
+                        </div>
+                    </div>
+                </span>
+                <span style={{display: 'flex', flexDirection: 'column', gap: '2rem'}}>
+                    <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
+                        <div style={{fontWeight: 'bold'}}>
+                            About Me
+                        </div>
+                        <div style={{display: 'flex', gap: '1rem'}}>
+                            <div style={{backgroundColor: 'rgb(56, 59, 62)', fontSize: 'large', height: '2rem', aspectRatio: 1, borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                <FontAwesomeIcon icon={faInstagram}/>
+                            </div>
+                            <div style={{backgroundColor: 'rgb(56, 59, 62)', fontSize: 'large', height: '2rem', aspectRatio: 1, borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                <FontAwesomeIcon icon={faFacebook}/>
+                            </div>
+                            <div style={{backgroundColor: 'rgb(56, 59, 62)', fontSize: 'large', height: '2rem', aspectRatio: 1, borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                <FontAwesomeIcon icon={faGithub}/>
+                            </div>
+                        </div>
+                    </div>
+                    <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
+                        <div style={{fontWeight: 'bold'}}>
+                            Buy Me a Coffee
+                        </div>
+                        <div style={{fontSize: 'large', display: 'flex', flexDirection: 'column', gap: '0.5rem'}}>
+                            <div>
+                                No Link Provided
+                            </div>
+                        </div>
+                    </div>
+                </span>
+                </div>
+                <div style={{width: '100%', textAlign: 'center', fontSize: 'large'}}>
+                    Built with love by Benjamin Thio © 2025 - 2025
+                </div>
+            </footer>
         </body>
     </html>
     );

@@ -79,6 +79,24 @@ export async function UpdateApp(uuid: string, field: AppField, value: AppFieldVa
     });
 }
 
+export async function MergeUpdateApp(uuid: string, name: string, description: string, status: Status, thumbnail: string, tag: Tag, platforms: PlatformsProps) {
+    await setDoc(doc(db, 'apps', uuid), {
+        info: {
+            name: name,
+            description: description,
+            status: status,
+            thumbnail: thumbnail,
+            tag: tag,
+            platforms: {
+                windows: platforms.windows,
+                linux: platforms.linux,
+                macOs: platforms.macOs,
+                android: platforms.android
+            }
+        },
+    });
+}
+
 export async function GetApp(uuid: string): Promise<AppProps | null> {
     const documentSnapshot: DocumentSnapshot<DocumentData, DocumentData> = await getDoc(doc(db, 'apps', uuid));
 

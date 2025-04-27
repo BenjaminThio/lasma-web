@@ -4,6 +4,7 @@ body {
     background-color: #131314;
     color: white;
     user-select: none;
+    font-family: monospace;
 }
 
 nav {
@@ -17,6 +18,5 @@ nav {
 
 footer {
     background-color: #1b1b1b;
-    width: 100%;
-    height: 50rem;
+    height: 13rem;
 }
