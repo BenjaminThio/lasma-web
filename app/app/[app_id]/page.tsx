@@ -68,7 +68,7 @@ export default async function AppPage({params}: ParamsProps) {
         }
         return rows;
     }
-
+    
     const {app_id}: Record<string, string> = await params;
     const app: AppProps | null = await GetApp(app_id);
 

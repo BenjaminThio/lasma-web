@@ -118,13 +118,13 @@ export default function ConsolePage(): JSX.Element {
 
     return (
     <div className={`${styles['main-container']} ${determinationFont.className}`}>
-        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', flexGrow: 1, fontSize: 'x-large'}}>
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', flexGrow: 1, fontSize: 'x-large', marginTop: '5rem'}}>
             <div style={{display: 'flex', justifyContent: 'space-between'}} className={styles['default-width']}>
                 <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: 'xx-large'}}>
                     <FontAwesomeIcon icon={faTable}/>
                     Game List
-                    <div style={{backgroundColor: 'red', width: '3ch', padding: '0.4rem', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '0.5rem', fontSize: 'large'}}>
-                        {userRef.current?.apps.length}
+                    <div style={{backgroundColor: 'red', width: '3ch', height: '1em', padding: '0.4rem', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '0.5rem', fontSize: 'large'}}>
+                        {userRef.current?.apps.length ?? 0}
                     </div>
                 </div>
                 
@@ -143,7 +143,8 @@ export default function ConsolePage(): JSX.Element {
                         alignItems: 'center',
                         fontWeight: 'bolder',
                         fontFamily: 'inherit',
-                        fontSize: 'x-large'
+                        fontSize: 'x-large',
+                        cursor: 'pointer'
                     }}>+</button>
                     <select defaultValue={10} onChange={(event: ChangeEvent<HTMLSelectElement>) => {
                         setMaxValueTest(parseInt(event.target.value));
