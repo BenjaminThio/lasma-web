@@ -22,3 +22,49 @@
         scale: 1
     }
 }
+
+.cancel {
+    padding: 0.3rem;
+    transition: 0.5s;
+}
+
+.cancel:hover {
+    padding-top: 0.6rem;
+    padding-right: 0.6rem;
+}
+
+.sign-up-button {
+    border-top-left-radius: 0.7rem;
+    border-bottom-left-radius: 0.7rem;
+}
+
+.login-button {
+    border-top-right-radius: 0.7rem;
+    border-bottom-right-radius: 0.7rem;
+}
+
+.button {
+    background-color: #282a2c;
+    transition: 0.5s;
+}
+
+.button:hover {
+    scale: 1.03;
+}
+
+.edit {
+    border-radius: 0.7rem 0.7rem 0 0
+}
+
+.log-out {
+    border-Radius: 0 0 0.7rem 0.7rem
+}
+
+.button2 {
+    transition: 0.5s;
+}
+
+.button2:hover {
+    scale: 1.03;
+    border-radius: 0.7rem;
+}

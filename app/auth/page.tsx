@@ -7,8 +7,9 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import PasswordInputField from './../components/password';
 import Tilt from 'react-parallax-tilt';
 import { AddNewUser, type Email } from '@/utils/firestore';
-import { GenerateSalt, GenerateSessionId, Login, SetCookie } from './auth';
+import { GenerateSalt, GenerateSessionId, SetCookie } from './auth';
 import { redirect } from 'next/navigation';
+import { Login } from './auth-client';
 
 export default function AuthPage(): JSX.Element {
     const [email, setEmail] = useState<Email>('' as Email);
@@ -59,8 +60,8 @@ export default function AuthPage(): JSX.Element {
                 >
                     Sign Up
                 </button>
-                <button onClick={() => {
-                    Login(email, password);
+                <button onClick={async () => {
+                    await Login(email, password);
                 }}>Login</button>
                 <button className={`${styles['login-button']} ${styles['google']}`} style={{marginBottom: '2rem'}}>
                     <FontAwesomeIcon icon={faGoogle} style={{marginRight: '1rem'}}/>

@@ -64,21 +64,6 @@ export async function GetUser(): Promise<UserProps | null> {
     else return null;
 }
 
-export async function Login(email: string, password: string) {
-    const users: UserProps[] = await GetAllUsers();
-
-    for (let i: number = 0; i < users.length; i++) {
-        if (email === users[i].info.email){
-            if (password === users[i].info.password) {
-                await SetCookie(users[i].session);
-                redirect('/');
-                return;
-            }
-        };
-    }
-    console.log('Failed Login');
-}
-
 export async function LogOut() {
     const sessionId: string | undefined = (await cookies()).get(SESSION_COOKIE_KEY)?.value;
 
