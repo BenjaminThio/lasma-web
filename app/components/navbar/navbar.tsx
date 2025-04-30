@@ -31,7 +31,7 @@ export default function Navbar() {
     }, []);
 
     return (
-    <nav className={fusionPixel12px.className} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+    <nav className={fusionPixel12px.className} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 3}}>
         <Link href='/' style={{fontSize: 'large', textDecoration: 'none', color: 'white', marginLeft: '1.5rem', fontWeight: 'bold'}}>
             <FontAwesomeIcon icon={faAtom} className={styles.logo}/> LASMA STUDIO
         </Link>

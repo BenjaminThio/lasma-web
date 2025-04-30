@@ -344,6 +344,10 @@ export function HslToRgb([h, s, l]: HSL, conversion: Conversion = Conversion.Alt
     }
 }
 
+export function test() {
+    
+}
+
 export function HSLToHex(hsl: HSL): HEX {
     return Rgb2Hex(HslToRgb(hsl));
 }

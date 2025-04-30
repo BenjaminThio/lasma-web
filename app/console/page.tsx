@@ -10,6 +10,7 @@ import { redirect } from 'next/navigation';
 import { GetUser } from '../auth/auth';
 import { DeleteApp, GetApp, UpdateApp, UserProps } from '@/utils/firestore';
 import { AppProps } from '@/utils/firestore';
+import Dropdown from '../components/dropdown/dropdown';
 
 const determinationFont: NextFont = localFont({
     src: './../../public/fonts/Monospaced_Mars_Needs_Cunnilingus.ttf'
@@ -137,6 +138,7 @@ export default function ConsolePage(): JSX.Element {
                         border: 'none',
                         borderRadius: '50%',
                         width: '2.5rem',
+                        height: 'fit-content',
                         aspectRatio: 1,
                         display: 'flex',
                         justifyContent: 'center',
@@ -163,6 +165,15 @@ export default function ConsolePage(): JSX.Element {
                         <option value={50}>50</option>
                         <option value={100}>100</option>
                     </select>
+                    <Dropdown defaultIndex={1} backgroundColor='#282a2c' textColor='white' options={[
+                        {option: 'Show All', value: 101},
+                        {option: '10', value: 10},
+                        {option: '50', value: 50},
+                        {option: '100', value: 100}
+                    ]} onChange={(value: number | string) => {
+                        console.log(value);
+                        setMaxValueTest(value as number);
+                    }}/>
                 </div>
             </div>
             <table className={styles.table}>

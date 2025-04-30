@@ -14,6 +14,7 @@ import LightBulb from './light-bulb';
 import { GetUser } from '@/app/auth/auth';
 import { UserProps } from '@/utils/firestore';
 import { redirect } from 'next/navigation';
+import Dropdown from '../dropdown/dropdown';
 
 const fusionPixel12px: NextFont = localFont({
     src: './../../../public/fonts/fusion-pixel-12px-monospaced-zh_hans.otf'
@@ -76,7 +77,7 @@ export default function EditableAppCard({updateOnlyAppId=null, defaultName='', d
     }, []);
 
     return (
-    <div className={styles['app-card']} style={{scale: 2}}>
+    <div className={styles['app-card']} style={{scale: 2, marginTop: '3.5rem'}}>
         <div className={styles['app-container-upper-component']}>
             <div className={styles['app-image-container']}>
             <label style={{width: '100%', display: 'flex'}}>
@@ -101,7 +102,7 @@ export default function EditableAppCard({updateOnlyAppId=null, defaultName='', d
                     className={styles['app-image']}
                     alt='placeholder'
                     unoptimized/>
-                } 
+                }
             </label>
             <div className={styles['traffic-light-container']}>
                 <LightBulb color={status == Status.Ready ? 'springgreen' : ''} callback={() => setStatus(Status.Ready)} animated/>
@@ -128,11 +129,22 @@ export default function EditableAppCard({updateOnlyAppId=null, defaultName='', d
                 setName(event.target.value);
             }} placeholder='Name' className={`${fusionPixel12px.className} ${styles['app-title-container']} ${styles['title-input']}`}/>
         </div>
-        <select value={tag} onChange={(event) => {setTag(parseInt(event.target.value));}} className={`${fusionPixel12px.className} ${styles['tag-container']}`} style={{textAlign: 'center', border: 'none', outline: 'none', fontSize: 'medium', color: 'white'}}>
-            <option value={0}>FREE</option>
-            <option value={1}>PAID</option>
-            <option value={2}>WEB</option>
-        </select>
+        {
+            /*
+            <select value={tag} onChange={(event) => {setTag(parseInt(event.target.value));}} className={`${fusionPixel12px.className} ${styles['tag-container']}`} style={{textAlign: 'center', border: 'none', outline: 'none', fontSize: 'medium', color: 'white'}}>
+                <option value={0}>FREE</option>
+                <option value={1}>PAID</option>
+                <option value={2}>WEB</option>
+            </select>
+            */
+        }
+        <Dropdown className={fusionPixel12px.className} style={{position: 'absolute', top: '-5px', right: '-5px'}} defaultIndex={1} backgroundColor='#282a2c' textColor='white' options={[
+            {option: 'FREE', value: 101},
+            {option: 'PAID', value: 10},
+            {option: 'WEB', value: 50}
+        ]} onChange={(value: number | string) => {
+            setTag(value as number);
+        }}/>
         <div className={`${fusionPixel10px.className} ${styles['description-container']}`}>
             <span>
                 *
