@@ -17,7 +17,51 @@ export enum ColorFormat {
     Hsl
 }
 
-export const colorKeywords: Readonly<Record<string, Record<string, RGB>>> = {
+export type BasicColor = 'black' | 'silver' | 'gray' | 'white' | 'maroon' |
+                        'red' | 'purple' | 'fuchsia' | 'green' | 'lime' |
+                        'olive' | 'yellow' | 'navy' | 'blue' | 'teal' | 'aqua'
+
+export type namedColor = 'aliceblue' | 'antiquewhite' | 'aqua' | 'aquamarine' | 'azure' |
+                    'beige' | 'bisque' | 'black' | 'blanchedalmond' | 'blue' |
+                    'blueviolet' | 'brown' | 'burlywood' | 'cadetblue' | 'chartreuse' |
+                    'chocolate' | 'coral' | 'cornflowerblue' | 'cornsilk' | 'crimson' |
+                    'cyan' | 'darkblue' | 'darkcyan' | 'darkgoldenrod' | 'darkgray' |
+                    'darkgreen' | 'darkgrey' | 'darkkhaki' | 'darkmagenta' | 'darkolivegreen' |
+                    'darkorange' | 'darkorchid' | 'darkred' | 'darksalmon' | 'darkseagreen' |
+                    'darkslateblue' | 'darkslategray' | 'darkslategrey' | 'darkturquoise' | 'darkviolet' |
+                    'deeppink' | 'deepskyblue' | 'dimgray' | 'dimgrey' | 'dodgerblue' |
+                    'firebrick' | 'floralwhite' | 'forestgreen' | 'fuchsia' | 'gainsboro' |
+                    'ghostwhite' | 'gold' | 'goldenrod' | 'gray' | 'green' |
+                    'greenyellow' | 'grey' | 'honeydew' | 'hotpink' | 'indianred' |
+                    'indigo' | 'ivory' | 'khaki' | 'lavender' | 'lavenderblush' |
+                    'lawngreen' | 'lemonchiffon' | 'lightblue' | 'lightcoral' | 'lightcyan' |
+                    'lightgoldenrodyellow' | 'lightgray' | 'lightgreen' | 'lightgrey' | 'lightpink' |
+                    'lightsalmon' | 'lightseagreen' | 'lightskyblue' | 'lightslategray' | 'lightslategrey' |
+                    'lightsteelblue' | 'lightyellow' | 'lime' | 'limegreen' | 'linen' |
+                    'magenta' | 'maroon' | 'mediumaquamarine' | 'mediumblue' | 'mediumorchid' |
+                    'mediumpurple' | 'mediumseagreen' | 'mediumslateblue' | 'mediumspringgreen' | 'mediumturquoise' |
+                    'mediumvioletred' | 'midnightblue' | 'mintcream' | 'mistyrose' | 'moccasin' |
+                    'navajowhite' | 'navy' | 'oldlace' | 'olive' | 'olivedrab' |
+                    'orange' | 'orangered' | 'orchid' | 'palegoldenrod' | 'palegreen' |
+                    'paleturquoise' | 'palevioletred' | 'papayawhip' | 'peachpuff' | 'peru' |
+                    'pink' | 'plum' | 'powderblue' | 'purple' | 'rebeccapurple' | 'red' |
+                    'rosybrown' | 'royalblue' | 'saddlebrown' | 'salmon' | 'sandybrown'|
+                    'seagreen' | 'seashell' | 'sienna' | 'silver' | 'skyblue' |
+                    'slateblue' | 'slategray' | 'slategrey' | 'snow' | 'springgreen' |
+                    'steelblue' | 'tan' | 'teal' | 'thistle' | 'tomato' |
+                    'turquoise' | 'violet' | 'wheat' | 'white' | 'whitesmoke' |
+                    'yellow' | 'yellowgreen';
+
+export interface ColorKeywords {
+    basicColors: {
+        [colorName in BasicColor]: RGB
+    },
+    extendedColors: {
+        [colorName in namedColor]: RGB
+    }
+}
+
+export const colorKeywords: ColorKeywords = {
     basicColors: {
         black: [0, 0, 0], // #000000
         silver: [192, 192, 192], // #C0C0C0
@@ -156,6 +200,7 @@ export const colorKeywords: Readonly<Record<string, Record<string, RGB>>> = {
         plum: [221, 160, 221], // #dda0dd
         powderblue: [176, 224, 230], // #b0e0e6
         purple: [128, 0, 128], // #800080
+        rebeccapurple: [102, 51, 153], // #663399
         red: [255, 0, 0], // #ff0000
         rosybrown: [188, 143, 143], // #bc8f8f
         royalblue: [65, 105, 225], // #4169e1
@@ -192,7 +237,7 @@ export function ParseRgb(colorFormat: string, ignoreAlphaChannel: boolean = fals
 
     // Keyword
     if (colorKeywords.extendedColors.hasOwnProperty(colorFormat)) {
-        return ignoreAlphaChannel ? colorKeywords.extendedColors[colorFormat] : [...colorKeywords.extendedColors[colorFormat], 1];
+        return ignoreAlphaChannel ? colorKeywords.extendedColors[colorFormat as namedColor] : [...colorKeywords.extendedColors[colorFormat as namedColor], 1];
     }
     // Hex (#RGB, #RGBA, #RRGGBB, #RRGGBBAA)
     else if (colorFormat.startsWith('#') && [4, 5, 7, 9].includes(colorFormat.length)) {
@@ -345,7 +390,15 @@ export function HslToRgb([h, s, l]: HSL, conversion: Conversion = Conversion.Alt
 }
 
 export function test() {
-    
+    const namedColorType: namedColor[] = [];
+
+    let color: namedColor;
+    for (color in colorKeywords.basicColors)
+    {
+        namedColorType.push(color);
+    }
+
+    return namedColorType.join("' | '");
 }
 
 export function HSLToHex(hsl: HSL): HEX {

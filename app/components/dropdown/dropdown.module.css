@@ -7,8 +7,7 @@
 }
 
 .select {
-    padding: 0.5rem;
-    border-radius: 0.5rem;
+    /*padding: 0.5rem;*/
     display: flex;
     align-items: center;
     /*min-width: 5rem;*/
@@ -35,14 +34,13 @@
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: calc(1.2em + 1rem);
     transition: 0.2s;
     z-index: 1;
 }
 
 .option {
     background-color: var(--background-color);
-    padding: 0.5rem;
+    /*padding: 0.5rem;*/
     transform: translateY(var(--offset));
     opacity: 0;
     pointer-events: none;

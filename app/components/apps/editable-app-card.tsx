@@ -15,6 +15,7 @@ import { GetUser } from '@/app/auth/auth';
 import { UserProps } from '@/utils/firestore';
 import { redirect } from 'next/navigation';
 import Dropdown from '../dropdown/dropdown';
+//import { test } from '@/utils/color';
 
 const fusionPixel12px: NextFont = localFont({
     src: './../../../public/fonts/fusion-pixel-12px-monospaced-zh_hans.otf'
@@ -58,7 +59,7 @@ export default function EditableAppCard({updateOnlyAppId=null, defaultName='', d
     const userRef = useRef<UserProps | null>(null);
 
     useEffect(() => {
-        async function test() {
+        async function FetchImage() {
             if (defaultThumbnail === '') {
                 setThumbnail(await ImagePath2Base64(placeholder.src));
             }
@@ -73,7 +74,8 @@ export default function EditableAppCard({updateOnlyAppId=null, defaultName='', d
         }
         
         FetachPage();
-        test();
+        FetchImage();
+        //console.log(test());
     }, []);
 
     return (
@@ -138,10 +140,22 @@ export default function EditableAppCard({updateOnlyAppId=null, defaultName='', d
             </select>
             */
         }
-        <Dropdown className={fusionPixel12px.className} style={{position: 'absolute', top: '-5px', right: '-5px'}} defaultIndex={1} backgroundColor='#282a2c' textColor='white' options={[
-            {option: 'FREE', value: 101},
-            {option: 'PAID', value: 10},
-            {option: 'WEB', value: 50}
+        <Dropdown className={fusionPixel12px.className}
+        defaultIndex={tag} 
+        style={{
+            position: 'absolute',
+            top: '-5px',
+            right: '-5px'
+        }}
+        padding = '0.3rem'
+        borderRadius='0.3rem'
+        backgroundColor = '#282a2c'
+        textColor = 'white'
+        textAlign = 'center'
+        options={[
+            {option: 'FREE', value: Tag.Free},
+            {option: 'PAID', value: Tag.Paid},
+            {option: 'WEB', value: Tag.Web}
         ]} onChange={(value: number | string) => {
             setTag(value as number);
         }}/>
