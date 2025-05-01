@@ -1,7 +1,7 @@
 'use client';
 import { type JSX, useRef, useState } from 'react';
 import styles from './dropdown.module.css';
-import { DCSSProperties, MergeDCSS } from './custom-css';
+import { DCSS, DCSSProperties, MergeDCSS } from './custom-css';
 
 interface Option {
     option: string;
@@ -17,7 +17,7 @@ interface DropdownProps {
 }
 
 export default function Dropdown({options, className, style, defaultIndex = 0, onChange = () => {}}: DropdownProps) {
-    style = MergeDCSS(style);
+    const dcss: DCSS = MergeDCSS(style);
     const [isDropdown, setIsDropdown] = useState<boolean>(false);
     const [index, setIndex] = useState<number>(defaultIndex);
     const values = useRef<(string | number)[]>([]);
@@ -42,10 +42,10 @@ export default function Dropdown({options, className, style, defaultIndex = 0, o
             values.current = [...optionValues, option.value];
             optionCells.push(
                 <div key={i} className={`${styles.option} ${isDropdown ? styles.extend : ''}`}  style={{
-                        ['--offset' as string]: `calc((1.2em + (${style?.padding} * 2)) * -${i + 1})`,
-                        ['--background-color' as string]: i === index ? style?.option?.selected?.backgroundColor : style?.backgroundColor,
-                        ['--hovered-highlight-color' as string]: style?.option?.hovered?.backgroundColor,
-                        padding: style?.padding
+                        ['--offset' as string]: `calc((1.2em + (${dcss.padding} * 2)) * -${i + 1})`,
+                        ['--background-color' as string]: i === index ? dcss.option.selected.backgroundColor : dcss.backgroundColor,
+                        ['--hovered-highlight-color' as string]: dcss.option.hovered.backgroundColor,
+                        padding: dcss.padding
                     }}
                     onClick={() => {
                         setIndex(i);
@@ -59,13 +59,13 @@ export default function Dropdown({options, className, style, defaultIndex = 0, o
     }
 
     return (
-        <div className={className} style={style?.whole}>
+        <div className={className} style={dcss.whole}>
             <div className={styles['dropdown-wrapper']} style={{lineHeight: 1.2}}>
                 <div className={styles.select} style={{
-                    backgroundColor: style?.backgroundColor,
-                    borderRadius: style?.borderRadius,
-                    color: style?.whole?.color,
-                    padding: style?.padding
+                    backgroundColor: dcss.backgroundColor,
+                    borderRadius: dcss.borderRadius,
+                    color: dcss.whole.color,
+                    padding: dcss.padding
                 }} onClick={() => {setIsDropdown(!isDropdown);}}>
                     <div style={{flexGrow: 1, width: `${GetLongestName()}ch`}}>
                     {
@@ -73,12 +73,12 @@ export default function Dropdown({options, className, style, defaultIndex = 0, o
                     }
                     </div>
                     <div className={`${styles.arrow} ${isDropdown ? styles['arrow-up'] : styles['arrow-down']}`} style={{
-                        borderBottom: `2px solid ${style?.whole?.color}`,
-                        borderRight: `2px solid ${style?.whole?.color}`
+                        borderBottom: `2px solid ${dcss.whole.color}`,
+                        borderRight: `2px solid ${dcss.whole.color}`
                     }}/>
                 </div>
                 <div className={styles['option-wrapper']} style={{
-                    top: `calc(1.2em + (${style?.padding} * 2))`
+                    top: `calc(1.2em + (${dcss.padding} * 2))`
                 }}>
                 {
                     RenderOptions()

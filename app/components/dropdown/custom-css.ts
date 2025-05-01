@@ -1,7 +1,6 @@
 import { Color } from '@/utils/color';
 import { CSSProperties } from 'react';
 
-
 export interface DCSSProperties {
     whole?: CSSProperties
     backgroundColor?: Color;
@@ -20,8 +19,23 @@ export interface DCSSProperties {
     }
 }
 
-export function MergeDCSS(style?: DCSSProperties): DCSSProperties {
-    const defaultStyleSheets: DCSSProperties = {
+export interface DCSS {
+    whole: CSSProperties
+    backgroundColor: Color;
+    borderRadius: string;
+    padding: string;
+    option: {
+        hovered: {
+            backgroundColor: Color
+        };
+        selected: {
+            backgroundColor: Color
+        }
+    }
+}
+
+export function MergeDCSS(style?: DCSSProperties): DCSS {
+    const defaultStyleSheets: DCSS = {
         whole: {
             color: 'black'
         },
@@ -38,7 +52,7 @@ export function MergeDCSS(style?: DCSSProperties): DCSSProperties {
         }
     };
     if (style !== undefined) {
-        return {...defaultStyleSheets, ...style};
+        return {...defaultStyleSheets, ...style} as DCSS;
     }
     else {
         return defaultStyleSheets;
