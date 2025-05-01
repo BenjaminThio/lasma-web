@@ -9,7 +9,7 @@ export type HSLA = [h: number, s: number, l: number, a: number]
 export type GlobalValue = 'inherit' | 'initial'| 'revert' | 'revert-layer' | 'unset';
 export type RGBFormat = `rgb(${number},${number},${number})`;
 export type HSLFormat = `hsl(${number},${number}%,${number}%)`;
-export type Color = namedColor | HEX | RGBFormat | HSLFormat | GlobalValue;
+export type Color = NamedColor | HEX | RGBFormat | HSLFormat | GlobalValue | 'transparent';
 
 export enum ColorChannel {
     Red,
@@ -26,7 +26,7 @@ export type BasicColor = 'black' | 'silver' | 'gray' | 'white' | 'maroon' |
                         'red' | 'purple' | 'fuchsia' | 'green' | 'lime' |
                         'olive' | 'yellow' | 'navy' | 'blue' | 'teal' | 'aqua'
 
-export type namedColor = 'aliceblue' | 'antiquewhite' | 'aqua' | 'aquamarine' | 'azure' |
+export type NamedColor = 'aliceblue' | 'antiquewhite' | 'aqua' | 'aquamarine' | 'azure' |
                     'beige' | 'bisque' | 'black' | 'blanchedalmond' | 'blue' |
                     'blueviolet' | 'brown' | 'burlywood' | 'cadetblue' | 'chartreuse' |
                     'chocolate' | 'coral' | 'cornflowerblue' | 'cornsilk' | 'crimson' |
@@ -62,11 +62,11 @@ export interface ColorKeywords {
         [colorName in BasicColor]: RGB
     },
     extendedColors: {
-        [colorName in namedColor]: RGB
+        [colorName in NamedColor]: RGB
     }
 }
 
-export const colorKeywords: ColorKeywords = {
+export const colorKeywords: Record<string, Record<string, RGB>> = {
     basicColors: {
         black: [0, 0, 0], // #000000
         silver: [192, 192, 192], // #C0C0C0
@@ -242,7 +242,7 @@ export function ParseRgb(colorFormat: string, ignoreAlphaChannel: boolean = fals
 
     // Keyword
     if (colorKeywords.extendedColors.hasOwnProperty(colorFormat)) {
-        return ignoreAlphaChannel ? colorKeywords.extendedColors[colorFormat as namedColor] : [...colorKeywords.extendedColors[colorFormat as namedColor], 1];
+        return ignoreAlphaChannel ? colorKeywords.extendedColors[colorFormat as NamedColor] : [...colorKeywords.extendedColors[colorFormat as NamedColor], 1];
     }
     // Hex (#RGB, #RGBA, #RRGGBB, #RRGGBBAA)
     else if (colorFormat.startsWith('#') && [4, 5, 7, 9].includes(colorFormat.length)) {
@@ -395,9 +395,9 @@ export function HslToRgb([h, s, l]: HSL, conversion: Conversion = Conversion.Alt
 }
 
 export function test() {
-    const namedColorType: namedColor[] = [];
+    const namedColorType: /*NamedColor*/string[] = [];
 
-    let color: namedColor;
+    let color: string;//NamedColor;
     for (color in colorKeywords.basicColors)
     {
         namedColorType.push(color);

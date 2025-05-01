@@ -1,10 +1,10 @@
 'use client';
-import { type JSX, useRef, useState } from 'react';
+import { type JSX, useRef, useState, isValidElement } from 'react';
 import styles from './dropdown.module.css';
 import { DCSS, DCSSProperties, MergeDCSS } from './custom-css';
 
 interface Option {
-    option: string;
+    option: string | JSX.Element;
     value: number | string;
 }
 
@@ -22,40 +22,59 @@ interface DropdownProps {
     onChange?: (value: number | string) => void;
 }
 
-export default function Dropdown({options, className, style, defaultIndex = 0, direction = Direction.VERTICAL, onChange = () => {}}: DropdownProps) {
+export default function Dropdown({options, className, style, defaultIndex = 0, direction = Direction.VERTICAL, onChange = () => {}}: DropdownProps): JSX.Element {
     const dcss: DCSS = MergeDCSS(style);
+    console.log(dcss);
     const [isDropdown, setIsDropdown] = useState<boolean>(false);
     const [index, setIndex] = useState<number>(defaultIndex);
     const values = useRef<(string | number)[]>([]);
 
-    function GetLongestName(): number {
-        let longestName: number = 0;
+    function GetLongestOption(): string {
+        let longestOption: number = 0;
 
-        for (let i: number = 0; i < options.length; i++) {
-            longestName = options[i].option.length > longestName ? options[i].option.length : longestName;
+        if (typeof options)
+        for (let i: number = 0; i < options.length; i++)
+        {
+            const option: string | JSX.Element = options[i].option;
+
+            if (isValidElement(option)) {
+                return '1.25em';
+            }
+            else if (typeof option === 'string') {
+                longestOption = option.length > longestOption ? option.length : longestOption;
+            }
         }
-
-        return longestName;
+        
+        return `${longestOption}ch`;
     }
 
-    function RenderOptions() {
+    function RenderOptions(): JSX.Element[] {
         const optionCells: JSX.Element[] = [];
 
         for (let i: number = 0; i < options.length; i++) {
             const option: Option = options[i];
-            const optionValues: (number | string)[] = values.current;
+            const optionStyles: Record<string, string | number> = {
+                '--background-color': i === index ? dcss.option.selected.backgroundColor : dcss.backgroundColor,
+                '--hovered-option-highlight-color': dcss.option.hovered.backgroundColor,
+                padding: dcss.padding,
+                border: dcss.border
+            };
 
-            values.current = [...optionValues, option.value];
+            switch (direction) {
+                case Direction.VERTICAL:
+                    optionStyles['--option-offset'] = `translateY(calc((1.2em + (${dcss.padding} * 2)) * -${i + 1}))`;
+                    if (i + 1 === options.length) optionStyles.borderRadius = `0 0 ${dcss.borderRadius} ${dcss.borderRadius}`;
+                    break;
+                case Direction.HORIZONTAL:
+                    optionStyles['--option-offset'] = `translateX(calc((${GetLongestOption()} + (${dcss.padding} * 2)) * -${i + 1}))`;
+                    optionStyles.width = GetLongestOption();
+                    if (i + 1 === options.length) optionStyles.borderRadius = `0 ${dcss.borderRadius} ${dcss.borderRadius} 0`;
+                    break;
+            }
+            
+            values.current.push(option.value);
             optionCells.push(
-                <div key={i} className={`${styles.option} ${isDropdown ? styles.extend : ''}`}  style={{
-                        ['--offset-y' as string]: direction === Direction.VERTICAL ? `calc((1.2em + (${dcss.padding} * 2)) * -${i + 1})` : 0,
-                        ['--offset-x' as string]: direction === Direction.HORIZONTAL ? `calc((${GetLongestName()}ch + (${dcss.padding} * 2)) * -${i + 1})` : 0,
-                        ['--background-color' as string]: i === index ? dcss.option.selected.backgroundColor : dcss.backgroundColor,
-                        ['--hovered-highlight-color' as string]: dcss.option.hovered.backgroundColor,
-                        padding: dcss.padding,
-                        width: direction === Direction.HORIZONTAL ? `${GetLongestName()}ch` : 'auto',
-                        borderRadius: i + 1 === options.length ? direction === Direction.VERTICAL ? '0 0 0.3rem 0.3rem' : '0 0.3rem 0.3rem 0' : 0
-                    }}
+                <div key={i} className={`${styles.option} ${isDropdown ? styles.extend : ''}`}  style={optionStyles}
                     onClick={() => {
                         setIndex(i);
                         onChange(option.value);
@@ -67,37 +86,48 @@ export default function Dropdown({options, className, style, defaultIndex = 0, d
         return optionCells;
     }
 
+    const dropdownWrapperStyles: Record<string, string | number> = {};
+    const selectStyles: Record<string, string | number> = {
+        backgroundColor: dcss.backgroundColor,
+        ['--border-radius']: direction === Direction.VERTICAL || !isDropdown ? dcss.borderRadius : `${dcss.borderRadius} 0 0 ${dcss.borderRadius}`,
+        color: dcss.whole.color as string,
+        padding: dcss.padding,
+        border: dcss.border
+    };
+    const arrowStyles: Record<string, string |number> = {
+        border: `solid ${dcss.whole.color}`
+    };
+    const optionWrapperStyles: Record<string, string | number> = {};
+
+    switch (direction) {
+        case Direction.VERTICAL:
+            dropdownWrapperStyles.flexDirection = 'column';
+
+            arrowStyles.borderWidth = '0 2px 2px 0';
+
+            optionWrapperStyles.flexDirection = 'column';
+            optionWrapperStyles.top = `calc(1.2em + (${dcss.padding} * 2))`;            
+            optionWrapperStyles.width = '92%';
+            break;
+        case Direction.HORIZONTAL:
+            arrowStyles.borderWidth = '2px 2px 0 0';
+            // option value length + padding left and right value + gap between + arrow size + arrow outline
+            optionWrapperStyles.left = `calc(${GetLongestOption()} + (${dcss.padding} * 2) + 0.5rem + (0.2rem * 2) + 2px - 1px)`;
+            break;
+    }
+
     return (
         <div className={className} style={dcss.whole}>
-            <div className={styles['dropdown-wrapper']} style={{
-                lineHeight: 1.2,
-                flexDirection: direction === Direction.VERTICAL ? 'column' : 'row'
-            }}>
-                <div className={styles.select} style={{
-                    backgroundColor: dcss.backgroundColor,
-                    borderTopLeftRadius: dcss.borderRadius,
-                    borderTopRightRadius: direction === Direction.VERTICAL || !isDropdown ? dcss.borderRadius : 0, 
-                    borderBottomLeftRadius: dcss.borderRadius,
-                    borderBottomRightRadius: direction === Direction.VERTICAL || !isDropdown ? dcss.borderRadius : 0,
-                    color: dcss.whole.color,
-                    padding: dcss.padding
-                }} onClick={() => {setIsDropdown(!isDropdown);}}>
-                    <div style={{flexGrow: 1, width: `${GetLongestName()}ch`}}>
+            <div className={styles['dropdown-wrapper']} style={dropdownWrapperStyles}>
+                <div className={styles.select} style={selectStyles} onClick={() => {setIsDropdown(!isDropdown);}}>
+                    <div className={styles['option-value']} style={{width: GetLongestOption()}}>
                     {
                         options[index].option
                     }
                     </div>
-                    <div className={`${styles.arrow} ${isDropdown ? styles['arrow-up'] : styles['arrow-down']}`} style={{
-                        borderBottom: `2px solid ${dcss.whole.color}`,
-                        borderRight: `2px solid ${dcss.whole.color}`
-                    }}/>
+                    <div className={`${styles.arrow} ${isDropdown ? styles['arrow-up'] : styles['arrow-down']}`} style={arrowStyles}/>
                 </div>
-                <div className={styles['option-wrapper']} style={{
-                    top: direction === Direction.VERTICAL ? `calc(1.2em + (${dcss.padding} * 2))` : 'auto',
-                    left: direction === Direction.HORIZONTAL ? `calc(${GetLongestName()}ch + (${dcss.padding} * 2) + (0.2rem * 2) + 2px + 0.5rem)` : 'auto',
-                    flexDirection: direction === Direction.VERTICAL ? 'column' : 'row',
-                    width: direction === Direction.VERTICAL ? '92%' : 'auto'
-                }}>
+                <div className={styles['option-wrapper']} style={optionWrapperStyles}>
                 {
                     RenderOptions()
                 }

@@ -76,7 +76,7 @@ export default function EditableAppCard({updateOnlyAppId=null, defaultName='', d
         FetachPage();
         FetchImage();
         //console.log(test());
-    }, []);
+    });
 
     return (
     <div className={styles['app-card']} style={{scale: 2, marginTop: '3.5rem'}}>
@@ -111,16 +111,22 @@ export default function EditableAppCard({updateOnlyAppId=null, defaultName='', d
                 <LightBulb color={status == Status.UnderConstruction ? 'orange' : ''} callback={() => setStatus(Status.UnderConstruction)} animated/>
                 <LightBulb color={status == Status.Disabled ? 'red' : ''} callback={() => setStatus(Status.Disabled)} animated/>
             </div>
-            <div className={`${fusionPixel10px.className} ${styles['platform-container']}`}>
+            <Dropdown direction={1} style={{whole: {position: 'absolute', color: 'white', bottom: '0.5rem', left: '0.5rem'}, borderRadius: '0.3rem', backgroundColor: 'transparent', border: '1px solid white'}} options={[
+                {option: <FontAwesomeIcon icon={faWindows} fixedWidth/>, value: 0},
+                {option: <FontAwesomeIcon icon={faLinux} fixedWidth/>, value: 1},
+                {option: <FontAwesomeIcon icon={faApple} fixedWidth/>, value: 2},
+                {option: <FontAwesomeIcon icon={faAndroid} fixedWidth/>, value: 3}
+            ]}/>
+            <div className={`${fusionPixel10px.className} ${styles['platform-container']}`} style={{display: 'none'}}>
                 <FontAwesomeIcon icon={faPencil} onClick={() => {setDropdown(!dropdown);}}/>
                 {
                     dropdown
                     ?
                     <>
-                        <FontAwesomeIcon icon={faWindows} className='fa-fw' onClick={() => {setIsWindows(!isWindows);}} style={{backgroundColor: isWindows ? 'rgba(255, 255, 0, 0.3)' : 'transparent'}}/>
-                        <FontAwesomeIcon icon={faLinux} className='fa-fw' onClick={() => {setIsLinux(!isLinux);}} style={{backgroundColor: isLinux ? 'rgba(255, 255, 0, 0.3)' : 'transparent'}}/>
-                        <FontAwesomeIcon icon={faApple} className='fa-fw' onClick={() => {setIsMacOs(!isMacOs);}} style={{backgroundColor: isMacOs ? 'rgba(255, 255, 0, 0.3)' : 'transparent'}}/>
-                        <FontAwesomeIcon icon={faAndroid} className='fa-fw' onClick={() => {setIsAndroid(!isAndroid);}} style={{backgroundColor: isAndroid ? 'rgba(255, 255, 0, 0.3)' : 'transparent'}}/>
+                        <FontAwesomeIcon icon={faWindows} fixedWidth onClick={() => {setIsWindows(!isWindows);}} style={{backgroundColor: isWindows ? 'rgba(255, 255, 0, 0.3)' : 'transparent'}}/>
+                        <FontAwesomeIcon icon={faLinux} fixedWidth onClick={() => {setIsLinux(!isLinux);}} style={{backgroundColor: isLinux ? 'rgba(255, 255, 0, 0.3)' : 'transparent'}}/>
+                        <FontAwesomeIcon icon={faApple} fixedWidth onClick={() => {setIsMacOs(!isMacOs);}} style={{backgroundColor: isMacOs ? 'rgba(255, 255, 0, 0.3)' : 'transparent'}}/>
+                        <FontAwesomeIcon icon={faAndroid} fixedWidth onClick={() => {setIsAndroid(!isAndroid);}} style={{backgroundColor: isAndroid ? 'rgba(255, 255, 0, 0.3)' : 'transparent'}}/>
                     </>
                     :
                     null

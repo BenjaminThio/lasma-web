@@ -3,6 +3,7 @@
     align-items: center;
     position: relative;
     width: fit-content;
+    line-height: 1.2;
 }
 
 .select {
@@ -10,6 +11,12 @@
     align-items: center;
     gap: 0.5rem;
     z-index: 2;
+    border-radius: var(--border-radius);
+    transition: 0.2s;
+}
+
+.option-value {
+    flex-grow: 1;
 }
 
 .arrow {
@@ -35,7 +42,7 @@
 
 .option {
     background-color: var(--background-color);
-    transform: translateY(var(--offset-y)) translateX(var(--offset-x));
+    transform: var(--option-offset);
     opacity: 0;
     pointer-events: none;
     transition: 0.2s;
@@ -45,11 +52,11 @@
 }
 
 .option:hover {
-    background-color: var(--hovered-highlight-color);
+    background-color: var(--hovered-option-highlight-color);
 }
 
 .extend {
-    transform: translateY(0);
+    transform: translate(0);
     opacity: 1;
     pointer-events: auto;
 }

@@ -1,3 +1,5 @@
+import { faWindows, faLinux, faApple, faAndroid } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Dropdown from './dropdown';
 
 export default function DropdownPage() {
@@ -31,9 +33,15 @@ export default function DropdownPage() {
                     {option: '3', value: 2}
                 ]}/>
                 <Dropdown direction={1} options={[
-                    {option: 'Hello World', value: 0},
-                    {option: '2', value: 1},
-                    {option: '3', value: 2}
+                    {option: 'Ben', value: 0},
+                    {option: 'Teh', value: 1},
+                    {option: 'Thye', value: 2}
+                ]}/>
+                <Dropdown direction={1} options={[
+                    {option: <FontAwesomeIcon icon={faWindows} fixedWidth/>, value: 0},
+                    {option: <FontAwesomeIcon icon={faLinux} fixedWidth/>, value: 1},
+                    {option: <FontAwesomeIcon icon={faApple} fixedWidth/>, value: 2},
+                    {option: <FontAwesomeIcon icon={faAndroid} fixedWidth/>, value: 3}
                 ]}/>
             </div>
         </div>

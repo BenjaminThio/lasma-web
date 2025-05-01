@@ -4,6 +4,7 @@ import { CSSProperties } from 'react';
 export interface DCSSProperties {
     whole?: CSSProperties
     backgroundColor?: Color;
+    border?: string;
     borderRadius?: string;
     padding?: string;
     /*select?: {
@@ -22,6 +23,7 @@ export interface DCSSProperties {
 export interface DCSS {
     whole: CSSProperties
     backgroundColor: Color;
+    border: string;
     borderRadius: string;
     padding: string;
     option: {
@@ -40,6 +42,7 @@ export function MergeDCSS(style?: DCSSProperties): DCSS {
             color: 'black'
         },
         backgroundColor: 'white',
+        border: 'unset',
         borderRadius: '0.5rem',
         padding: '0.5rem',
         option: {
