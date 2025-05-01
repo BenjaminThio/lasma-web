@@ -1,4 +1,4 @@
-import Dropdown from "./dropdown";
+import Dropdown from './dropdown';
 
 export default function DropdownPage() {
     return (
@@ -8,7 +8,8 @@ export default function DropdownPage() {
             justifyContent: 'center',
             alignItems: 'center',
             fontSize: 'large',
-            gap: '1rem'
+            gap: '1rem',
+            /*overflow: 'hidden'*/
         }}>
             <div style={{flexGrow: 1, display: 'flex', justifyContent: 'center'}}>
                 <select style={{
@@ -23,8 +24,13 @@ export default function DropdownPage() {
                     <option>3</option>
                 </select>
             </div>
-            <div style={{flexGrow: 1, display: 'flex', justifyContent: 'center'}}>
-                <Dropdown options={[
+            <div style={{flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '7rem'}}>
+                <Dropdown direction={0} options={[
+                    {option: 'Hello World', value: 0},
+                    {option: '2', value: 1},
+                    {option: '3', value: 2}
+                ]}/>
+                <Dropdown direction={1} options={[
                     {option: 'Hello World', value: 0},
                     {option: '2', value: 1},
                     {option: '3', value: 2}

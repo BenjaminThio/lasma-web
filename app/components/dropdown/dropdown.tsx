@@ -8,7 +8,13 @@ interface Option {
     value: number | string;
 }
 
+export enum Direction {
+    VERTICAL,
+    HORIZONTAL
+}
+
 interface DropdownProps {
+    direction?: Direction;
     className?: string;
     style?: DCSSProperties
     defaultIndex?: number;
@@ -16,7 +22,7 @@ interface DropdownProps {
     onChange?: (value: number | string) => void;
 }
 
-export default function Dropdown({options, className, style, defaultIndex = 0, onChange = () => {}}: DropdownProps) {
+export default function Dropdown({options, className, style, defaultIndex = 0, direction = Direction.VERTICAL, onChange = () => {}}: DropdownProps) {
     const dcss: DCSS = MergeDCSS(style);
     const [isDropdown, setIsDropdown] = useState<boolean>(false);
     const [index, setIndex] = useState<number>(defaultIndex);
@@ -42,10 +48,13 @@ export default function Dropdown({options, className, style, defaultIndex = 0, o
             values.current = [...optionValues, option.value];
             optionCells.push(
                 <div key={i} className={`${styles.option} ${isDropdown ? styles.extend : ''}`}  style={{
-                        ['--offset' as string]: `calc((1.2em + (${dcss.padding} * 2)) * -${i + 1})`,
+                        ['--offset-y' as string]: direction === Direction.VERTICAL ? `calc((1.2em + (${dcss.padding} * 2)) * -${i + 1})` : 0,
+                        ['--offset-x' as string]: direction === Direction.HORIZONTAL ? `calc((${GetLongestName()}ch + (${dcss.padding} * 2)) * -${i + 1})` : 0,
                         ['--background-color' as string]: i === index ? dcss.option.selected.backgroundColor : dcss.backgroundColor,
                         ['--hovered-highlight-color' as string]: dcss.option.hovered.backgroundColor,
-                        padding: dcss.padding
+                        padding: dcss.padding,
+                        width: direction === Direction.HORIZONTAL ? `${GetLongestName()}ch` : 'auto',
+                        borderRadius: i + 1 === options.length ? direction === Direction.VERTICAL ? '0 0 0.3rem 0.3rem' : '0 0.3rem 0.3rem 0' : 0
                     }}
                     onClick={() => {
                         setIndex(i);
@@ -60,10 +69,16 @@ export default function Dropdown({options, className, style, defaultIndex = 0, o
 
     return (
         <div className={className} style={dcss.whole}>
-            <div className={styles['dropdown-wrapper']} style={{lineHeight: 1.2}}>
+            <div className={styles['dropdown-wrapper']} style={{
+                lineHeight: 1.2,
+                flexDirection: direction === Direction.VERTICAL ? 'column' : 'row'
+            }}>
                 <div className={styles.select} style={{
                     backgroundColor: dcss.backgroundColor,
-                    borderRadius: dcss.borderRadius,
+                    borderTopLeftRadius: dcss.borderRadius,
+                    borderTopRightRadius: direction === Direction.VERTICAL || !isDropdown ? dcss.borderRadius : 0, 
+                    borderBottomLeftRadius: dcss.borderRadius,
+                    borderBottomRightRadius: direction === Direction.VERTICAL || !isDropdown ? dcss.borderRadius : 0,
                     color: dcss.whole.color,
                     padding: dcss.padding
                 }} onClick={() => {setIsDropdown(!isDropdown);}}>
@@ -78,7 +93,10 @@ export default function Dropdown({options, className, style, defaultIndex = 0, o
                     }}/>
                 </div>
                 <div className={styles['option-wrapper']} style={{
-                    top: `calc(1.2em + (${dcss.padding} * 2))`
+                    top: direction === Direction.VERTICAL ? `calc(1.2em + (${dcss.padding} * 2))` : 'auto',
+                    left: direction === Direction.HORIZONTAL ? `calc(${GetLongestName()}ch + (${dcss.padding} * 2) + (0.2rem * 2) + 2px + 0.5rem)` : 'auto',
+                    flexDirection: direction === Direction.VERTICAL ? 'column' : 'row',
+                    width: direction === Direction.VERTICAL ? '92%' : 'auto'
                 }}>
                 {
                     RenderOptions()
