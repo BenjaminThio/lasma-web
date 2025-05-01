@@ -6,6 +6,11 @@ export type RGB = [r: number, g: number, b: number]
 export type HSL = [h: number, s: number, l: number]
 export type RGBA = [r: number, g: number, b: number, a: number]
 export type HSLA = [h: number, s: number, l: number, a: number]
+export type GlobalValue = 'inherit' | 'initial'| 'revert' | 'revert-layer' | 'unset';
+export type RGBFormat = `rgb(${number},${number},${number})`;
+export type HSLFormat = `hsl(${number},${number}%,${number}%)`;
+export type Color = namedColor | HEX | RGBFormat | HSLFormat | GlobalValue;
+
 export enum ColorChannel {
     Red,
     Green,

@@ -165,12 +165,17 @@ export default function ConsolePage(): JSX.Element {
                         <option value={50}>50</option>
                         <option value={100}>100</option>
                     </select>
-                    <Dropdown defaultIndex={1} backgroundColor='#282a2c' textColor='white' options={[
+                    <Dropdown defaultIndex={1} options={[
                         {option: 'Show All', value: 101},
                         {option: '10', value: 10},
                         {option: '50', value: 50},
                         {option: '100', value: 100}
-                    ]} onChange={(value: number | string) => {
+                    ]} style={{
+                        whole: {
+                            color: 'white'
+                        },
+                        backgroundColor: '#282a2c'
+                    }}onChange={(value: number | string) => {
                         console.log(value);
                         setMaxValueTest(value as number);
                     }}/>

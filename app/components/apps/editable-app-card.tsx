@@ -140,23 +140,27 @@ export default function EditableAppCard({updateOnlyAppId=null, defaultName='', d
             </select>
             */
         }
-        <Dropdown className={fusionPixel12px.className}
-        defaultIndex={tag} 
-        style={{
-            position: 'absolute',
-            top: '-5px',
-            right: '-5px'
-        }}
-        padding = '0.3rem'
-        borderRadius='0.3rem'
-        backgroundColor = '#282a2c'
-        textColor = 'white'
-        textAlign = 'center'
+        <Dropdown
+        defaultIndex={tag}
+        className={fusionPixel12px.className}
         options={[
             {option: 'FREE', value: Tag.Free},
             {option: 'PAID', value: Tag.Paid},
             {option: 'WEB', value: Tag.Web}
-        ]} onChange={(value: number | string) => {
+        ]}
+        style={{
+            whole: {
+                position: 'absolute',
+                top: '-5px',
+                right: '-5px',
+                textAlign: 'center',
+                color: 'white'
+            },
+            backgroundColor: '#282a2c',
+            borderRadius: '0.3rem',
+            padding: '0.3rem'
+        }}
+        onChange={(value: number | string) => {
             setTag(value as number);
         }}/>
         <div className={`${fusionPixel10px.className} ${styles['description-container']}`}>
