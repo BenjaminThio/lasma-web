@@ -12,6 +12,8 @@
     gap: 0.5rem;
     z-index: 2;
     border-radius: var(--border-radius);
+    border: var(--border);
+    border-color: var(--border-color);
     transition: 0.2s;
 }
 
@@ -45,7 +47,7 @@
     transform: var(--option-offset);
     opacity: 0;
     pointer-events: none;
-    transition: 0.2s;
+    transition: 0.2s, border 0s;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

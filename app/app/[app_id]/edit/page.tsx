@@ -29,7 +29,7 @@ export default function EditAppPage({params}: ParamsProps) {
         }
 
         FetachApp();
-    });
+    }, []);
 
     return (
         <div style={{height: '100svh', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>

@@ -8,25 +8,26 @@ export default function DropdownPage() {
             height: '100svh',
             display: 'flex',
             justifyContent: 'center',
-            alignItems: 'center',
+            alignItems: 'top',
             fontSize: 'large',
             gap: '1rem',
             /*overflow: 'hidden'*/
         }}>
-            <div style={{flexGrow: 1, display: 'flex', justifyContent: 'center'}}>
+            <div style={{marginTop: '4rem', flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                 <select style={{
                     padding: '0.5rem',
                     fontFamily: 'inherit',
                     fontSize: 'large',
                     borderRadius: '0.5rem',
-                    border: 'none'
+                    border: 'none',
+                    height: 'fit-content'
                 }}>
                     <option>Hello World</option>
                     <option>2</option>
                     <option>3</option>
                 </select>
             </div>
-            <div style={{flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '7rem'}}>
+            <div style={{marginTop: '4rem', flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '7rem'}}>
                 <Dropdown direction={0} options={[
                     {option: 'Hello World', value: 0},
                     {option: '2', value: 1},
@@ -38,6 +39,27 @@ export default function DropdownPage() {
                     {option: 'Thye', value: 2}
                 ]}/>
                 <Dropdown direction={1} options={[
+                    {option: <FontAwesomeIcon icon={faWindows} fixedWidth/>, value: 0},
+                    {option: <FontAwesomeIcon icon={faLinux} fixedWidth/>, value: 1},
+                    {option: <FontAwesomeIcon icon={faApple} fixedWidth/>, value: 2},
+                    {option: <FontAwesomeIcon icon={faAndroid} fixedWidth/>, value: 3}
+                ]}/>
+                <Dropdown multiple direction={1} options={[
+                    {option: <FontAwesomeIcon icon={faWindows} fixedWidth/>, value: 0},
+                    {option: <FontAwesomeIcon icon={faLinux} fixedWidth/>, value: 1},
+                    {option: <FontAwesomeIcon icon={faApple} fixedWidth/>, value: 2},
+                    {option: <FontAwesomeIcon icon={faAndroid} fixedWidth/>, value: 3}
+                ]}/>
+                <Dropdown style={{
+                    whole: {
+                        color: 'white'
+                    },
+                    backgroundColor: 'transparent',
+                    border: '1px solid purple',
+                    option: {
+                        border: '1px solid purple'
+                    }
+                }} multiple direction={0} options={[
                     {option: <FontAwesomeIcon icon={faWindows} fixedWidth/>, value: 0},
                     {option: <FontAwesomeIcon icon={faLinux} fixedWidth/>, value: 1},
                     {option: <FontAwesomeIcon icon={faApple} fixedWidth/>, value: 2},

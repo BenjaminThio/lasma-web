@@ -8,7 +8,6 @@ import placeholder from './../../../public/images/galaxy.png';
 import { Image2Base64, ImagePath2Base64 } from '@/utils/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWindows, faLinux, faApple, faAndroid } from '@fortawesome/free-brands-svg-icons';
-import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { CreateNewApp, MergeUpdateApp, Status, Tag, UpdateUser } from '@/utils/firestore';
 import LightBulb from './light-bulb';
 import { GetUser } from '@/app/auth/auth';
@@ -43,20 +42,39 @@ export interface LocalInfoProps {
 }
 
 export default function EditableAppCard({updateOnlyAppId=null, defaultName='', defaultDescription='', defaultStatus=Status.Ready, defaultThumbnail='', defaultPlatforms={windows: false, linux: false, macOs: false, android: false}, defaultTag=Tag.Free}: LocalInfoProps): JSX.Element {
-    const [dropdown, setDropdown] = useState<boolean>(false);
-    
-    const [isWindows, setIsWindows] = useState<boolean>(defaultPlatforms.windows);
-    const [isLinux, setIsLinux] = useState<boolean>(defaultPlatforms.linux);
-    const [isMacOs, setIsMacOs] = useState<boolean>(defaultPlatforms.macOs);
-    const [isAndroid, setIsAndroid] = useState<boolean>(defaultPlatforms.android);
-    
     const [name, setName] = useState<string>(defaultName);
     const [description, setDescription] = useState<string>(defaultDescription);
     const [status, setStatus] = useState<Status>(defaultStatus);
     const [thumbnail, setThumbnail] = useState<string>(defaultThumbnail);
     const [tag, setTag] = useState<Tag>(defaultTag);
+    const platforms = useRef<LocalPlatformsProps>({
+        windows: defaultPlatforms.windows,
+        linux: defaultPlatforms.linux,
+        macOs: defaultPlatforms.macOs,
+        android: defaultPlatforms.android
+    });
 
     const userRef = useRef<UserProps | null>(null);
+
+    function ParseIndexes(): number[] {
+        //console.log(platforms);
+        const indexes = [];
+
+        if (platforms.current.windows) {
+            indexes.push(0);
+        }
+        if (platforms.current.linux) {
+            indexes.push(1);
+        }
+        if (platforms.current.macOs) {
+            indexes.push(2);
+        }
+        if (platforms.current.android) {
+            indexes.push(3);
+        }
+
+        return indexes;
+    }
 
     useEffect(() => {
         async function FetchImage() {
@@ -76,7 +94,7 @@ export default function EditableAppCard({updateOnlyAppId=null, defaultName='', d
         FetachPage();
         FetchImage();
         //console.log(test());
-    });
+    }, []);
 
     return (
     <div className={styles['app-card']} style={{scale: 2, marginTop: '3.5rem'}}>
@@ -111,27 +129,30 @@ export default function EditableAppCard({updateOnlyAppId=null, defaultName='', d
                 <LightBulb color={status == Status.UnderConstruction ? 'orange' : ''} callback={() => setStatus(Status.UnderConstruction)} animated/>
                 <LightBulb color={status == Status.Disabled ? 'red' : ''} callback={() => setStatus(Status.Disabled)} animated/>
             </div>
-            <Dropdown direction={1} style={{whole: {position: 'absolute', color: 'white', bottom: '0.5rem', left: '0.5rem'}, borderRadius: '0.3rem', backgroundColor: 'transparent', border: '1px solid white'}} options={[
-                {option: <FontAwesomeIcon icon={faWindows} fixedWidth/>, value: 0},
-                {option: <FontAwesomeIcon icon={faLinux} fixedWidth/>, value: 1},
-                {option: <FontAwesomeIcon icon={faApple} fixedWidth/>, value: 2},
-                {option: <FontAwesomeIcon icon={faAndroid} fixedWidth/>, value: 3}
-            ]}/>
-            <div className={`${fusionPixel10px.className} ${styles['platform-container']}`} style={{display: 'none'}}>
-                <FontAwesomeIcon icon={faPencil} onClick={() => {setDropdown(!dropdown);}}/>
-                {
-                    dropdown
-                    ?
-                    <>
-                        <FontAwesomeIcon icon={faWindows} fixedWidth onClick={() => {setIsWindows(!isWindows);}} style={{backgroundColor: isWindows ? 'rgba(255, 255, 0, 0.3)' : 'transparent'}}/>
-                        <FontAwesomeIcon icon={faLinux} fixedWidth onClick={() => {setIsLinux(!isLinux);}} style={{backgroundColor: isLinux ? 'rgba(255, 255, 0, 0.3)' : 'transparent'}}/>
-                        <FontAwesomeIcon icon={faApple} fixedWidth onClick={() => {setIsMacOs(!isMacOs);}} style={{backgroundColor: isMacOs ? 'rgba(255, 255, 0, 0.3)' : 'transparent'}}/>
-                        <FontAwesomeIcon icon={faAndroid} fixedWidth onClick={() => {setIsAndroid(!isAndroid);}} style={{backgroundColor: isAndroid ? 'rgba(255, 255, 0, 0.3)' : 'transparent'}}/>
-                    </>
-                    :
-                    null
+            <Dropdown defaultIndexes={ParseIndexes()} direction={1} style={{
+                    whole: {
+                        position: 'absolute',
+                        color: 'white',
+                        bottom: '0.5rem',
+                        left: '0.5rem'
+                    },
+                    borderRadius: '0.3rem',
+                    backgroundColor:
+                    'transparent',
+                    border: '1px solid white'
+                }} multiple options={[
+                {option: <FontAwesomeIcon icon={faWindows} fixedWidth /*style={{stroke: 'black', strokeWidth: '5px'*}}*//>, value: 0},
+                {option: <FontAwesomeIcon icon={faLinux} fixedWidth /*style={{stroke: 'black', strokeWidth: '3px'}}*//>, value: 1},
+                {option: <FontAwesomeIcon icon={faApple} fixedWidth /*style={{stroke: 'black', strokeWidth: '5px'}}*//>, value: 2},
+                {option: <FontAwesomeIcon icon={faAndroid} fixedWidth /*style={{stroke: 'black', strokeWidth: '5px'}}*//>, value: 3}
+            ]} onChange={(callback: number | number[] | string) => {
+                if (Array.isArray(callback)) {
+                    platforms.current.windows = callback.includes(0);
+                    platforms.current.linux = callback.includes(1);
+                    platforms.current.macOs = callback.includes(2);
+                    platforms.current.android = callback.includes(3);
                 }
-            </div>
+            }}/>
             </div>
             <input maxLength={20} value={name} onChange={(event) => {
                 setName(event.target.value);
@@ -166,7 +187,7 @@ export default function EditableAppCard({updateOnlyAppId=null, defaultName='', d
             borderRadius: '0.3rem',
             padding: '0.3rem'
         }}
-        onChange={(value: number | string) => {
+        onChange={(value: number | number[] | string) => {
             setTag(value as number);
         }}/>
         <div className={`${fusionPixel10px.className} ${styles['description-container']}`}>
@@ -189,7 +210,19 @@ export default function EditableAppCard({updateOnlyAppId=null, defaultName='', d
             }
             if (userRef.current !== null) {
                 if (updateOnlyAppId !== null) {
-                    await MergeUpdateApp(updateOnlyAppId, name, description, status, thumbnail, tag, {windows: isWindows, linux: isLinux, macOs:isMacOs, android: isAndroid});
+                    await MergeUpdateApp(
+                        updateOnlyAppId,
+                        name,
+                        description,
+                        status,
+                        thumbnail,
+                        tag,
+                        {
+                            windows: platforms.current.windows,
+                            linux: platforms.current.linux,
+                            macOs: platforms.current.macOs,
+                            android: platforms.current.android
+                        });
                 } else {
                     user = userRef.current;
                     const uuid = crypto.randomUUID();
@@ -203,10 +236,10 @@ export default function EditableAppCard({updateOnlyAppId=null, defaultName='', d
                             category: 'idk',
                             status: status,
                             platforms: {
-                                windows: isWindows,
-                                linux: isLinux,
-                                macOs: isMacOs,
-                                android: isAndroid
+                                windows: platforms.current.windows,
+                                linux: platforms.current.linux,
+                                macOs: platforms.current.macOs,
+                                android: platforms.current.android
                             },
                             tag: tag
                         },
