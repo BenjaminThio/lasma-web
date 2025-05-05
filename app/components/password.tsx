@@ -1,6 +1,6 @@
 'use client';
 import { type JSX, useState } from 'react';
-import styles from './../auth/page.module.css';
+import styles from './../auth/auth.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 

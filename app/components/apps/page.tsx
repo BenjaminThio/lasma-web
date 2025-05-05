@@ -67,15 +67,14 @@ export default function ComponentShowcasePage() {
     
     return (
     <div className={`${styles['main-container']} ${fusionPixel12px.className}`}>
-        
-        <span className={styles['left-inner-container']}>
+        <span className={styles['left-inner-container']} style={{marginTop: '3.5rem'}}>
             <table className={styles['named-color-table']}>
                 <tbody>
                     {namedColorTable}
                 </tbody>
             </table>
         </span>
-        <span className={styles['right-inner-container']}>
+        <span className={styles['right-inner-container']} style={{marginTop: '3.5rem'}}>
             <Monitor/>
         </span>
     </div>

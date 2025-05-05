@@ -1,7 +1,10 @@
 .background {
-    height: 100dvh;
-    display: flex;
-    justify-content: space-evenly;
-    align-content: space-evenly;
-    flex-wrap: wrap;
+    height: 100svh;
+}
+
+.main-container {
+    margin-top: 4rem;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto;
+    row-gap: 0.5rem;
 }

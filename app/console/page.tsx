@@ -1,5 +1,5 @@
 'use client';
-import { type JSX,type CSSProperties, type ChangeEvent, useState, useEffect, useRef } from 'react';
+import { type JSX,type CSSProperties, type ChangeEvent, useState, useEffect } from 'react';
 import type { NextFont } from 'next/dist/compiled/@next/font';
 import localFont from 'next/font/local';
 import styles from './page.module.css';
@@ -10,6 +10,7 @@ import { redirect } from 'next/navigation';
 import { GetUser } from '../auth/auth';
 import { DeleteApp, GetApp, UpdateApp, UserProps } from '@/utils/firestore';
 import { AppProps } from '@/utils/firestore';
+import { sleep } from '@/utils/time';
 import Dropdown from '../components/dropdown/dropdown';
 
 const determinationFont: NextFont = localFont({
@@ -61,32 +62,50 @@ function Row({header = false, cells}: RowProps): JSX.Element {
 
 export default function ConsolePage(): JSX.Element {
     const [maxValueTest, setMaxValueTest] = useState<number>(10);
-    const userRef = useRef<UserProps | null>(null);
+    const [userProps, setUserProps] = useState<UserProps | null>(null);
     const [rows, setRows] = useState<JSX.Element[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [dots, setDots] = useState<string>('');
 
     useEffect(() => {
+        async function GenerateLoadingDots() {
+            let renderer: string = '';
+
+            for (let i: number = 0; i < 3; i++) {
+                renderer += '.';
+                setDots(renderer);
+
+                await sleep(500);
+            }
+
+            await GenerateLoadingDots();
+        }
+
         async function FetchUser() {
             const user: UserProps | null = await GetUser();
             if (user === null) {
                 redirect('/auth');
             }
             else {
-                userRef.current = user;
-                RenderRow(maxValueTest);
+                setUserProps(user);
+                RenderRow(user, maxValueTest);
             }
         }
         
+        GenerateLoadingDots();
         FetchUser();
-    }, [maxValueTest]);
+    }, []);
 
-    async function RenderRow(maxValue: number) {
+    async function RenderRow(user: UserProps, maxValue: number) {
         const cells: JSX.Element[] = [];
 
-        if (userRef.current !== null) {
-            const appCount: number = userRef.current.apps.length;
+        if (user !== null) {
+            const appCount: number = user.apps.length;
 
             for (let i: number = 1; i <= (appCount > (maxValue > 100 ? 1000 : maxValue) ? (maxValue > 100 ? 1000 : maxValue) : appCount); i++) {
-                const appId: string = userRef.current.apps[i - 1];
+                setLoading(true);
+
+                const appId: string = user.apps[i - 1];
                 const app: AppProps | null = await GetApp(appId);
 
                 if (app !== null) {
@@ -98,7 +117,6 @@ export default function ConsolePage(): JSX.Element {
                             await UpdateApp(appId, 'isGlobal', checked);
                         }} animated/>, style: {textAlign: 'center'}},
                         {content: <FontAwesomeIcon icon={faEye}/>, className: styles.zoom, style: {textAlign: 'center'}, callback: () => {
-                            console.log('IN');
                             redirect(`/app/${appId}`);
                         }},
                         {content: <FontAwesomeIcon icon={faPencil}/>, className: styles.zoom, style: {textAlign: 'center'}, callback: () => {
@@ -106,17 +124,35 @@ export default function ConsolePage(): JSX.Element {
                         }},
                         {content: <FontAwesomeIcon icon={faTrashCan}/>, className: styles.zoom, style: {textAlign: 'center'}, callback: async () => {
                             await DeleteApp(appId);
-                            userRef.current = await GetUser();
-                            RenderRow(maxValue);
+                            setUserProps(await GetUser());
+                            RenderRow(user, maxValue);
                         }}
                     ]}/>);
                 }
+
+                setLoading(false);
             }
         }
 
         setRows(cells);
     }
 
+    if (userProps === null) {
+        return (
+            <div className={`${determinationFont.className} ${styles.loading}`}style={{
+                height: '100svh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                fontSize: 'xx-large',
+            }}>
+                <div style={{width: '21ch'}}>
+                    Fetching user data{dots}
+                </div>
+            </div>
+        );
+    }
+    
     return (
     <div className={`${styles['main-container']} ${determinationFont.className}`}>
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', flexGrow: 1, fontSize: 'x-large', marginTop: '5rem'}}>
@@ -125,7 +161,7 @@ export default function ConsolePage(): JSX.Element {
                     <FontAwesomeIcon icon={faTable}/>
                     Game List
                     <div style={{backgroundColor: 'red', width: '3ch', height: '1em', padding: '0.4rem', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '0.5rem', fontSize: 'large'}}>
-                        {userRef.current?.apps.length ?? 0}
+                        {userProps?.apps.length ?? 0}
                     </div>
                 </div>
                 
@@ -175,7 +211,7 @@ export default function ConsolePage(): JSX.Element {
                             color: 'white'
                         },
                         backgroundColor: '#282a2c'
-                    }}onChange={(value: number | string) => {
+                    }}onChange={(value: number | number[] | string) => {
                         console.log(value);
                         setMaxValueTest(value as number);
                     }}/>
@@ -196,12 +232,29 @@ export default function ConsolePage(): JSX.Element {
                 </tbody>
             </table>
             {
-                userRef.current !== null && userRef.current.apps.length > 0
+                loading
+                ? 
+                <div style={{
+                    backgroundColor: '#282a2c',
+                    flexGrow: 1,
+                    marginBottom: '1rem',
+                    borderBottomLeftRadius: '0.5rem',
+                    borderBottomRightRadius: '0.5rem',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }} className={styles['default-width']}>
+                    <div className={styles.loading} style={{width: '21ch'}}>
+                        Fetching apps data{dots}
+                    </div>
+                </div>
+                :
+                userProps.apps.length > 0
                 ? 
                 null
                 :
                 <div style={{
-                    backgroundColor: '#282a2c',
+                    backgroundColor: '#282a2c', 
                     flexGrow: 1,
                     marginBottom: '1rem',
                     borderBottomLeftRadius: '0.5rem',

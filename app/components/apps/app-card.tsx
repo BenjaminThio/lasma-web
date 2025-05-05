@@ -1,3 +1,4 @@
+'use client';
 import type { JSX } from 'react';
 import type { NextFont } from 'next/dist/compiled/@next/font';
 import localFont from 'next/font/local';
@@ -6,6 +7,7 @@ import Image from 'next/image';
 import TrafficLight from './traffic-light';
 import { PlatformsProps, Status, Tag } from '@/utils/firestore';
 import Platform from './platform';
+import { redirect } from 'next/navigation';
 
 interface AppCardProps {
     thumnail: string;
@@ -14,6 +16,7 @@ interface AppCardProps {
     status: Status;
     platforms: PlatformsProps;
     tag: Tag;
+    link: string;
 }
 
 const fusionPixel12px: NextFont = localFont({
@@ -24,12 +27,14 @@ const fusionPixel10px: NextFont = localFont({
     src: './../../../public/fonts/fusion-pixel-10px-monospaced-zh_hans.otf'
 });
 
-export default function AppCard({thumnail, name, description, status, platforms, tag}: AppCardProps): JSX.Element {
+export default function AppCard({thumnail, name, description, status, platforms, tag, link}: AppCardProps): JSX.Element {
     return (
-    <div className={styles['app-card']}>
+    <div className={styles['app-card']} onClick={() => {
+        redirect(link);
+    }}>
         <div className={styles['app-container-upper-component']}>
             <div className={styles['app-image-container']}>
-                <Image src={thumnail} width={0} height={0} sizes='100dvw' draggable={false} className={styles['app-image']} alt='placeholder' unoptimized/>
+                <Image src={thumnail} width={0} height={0} sizes='100svw' draggable={false} className={styles['app-image']} alt='placeholder' priority /*unoptimized*//>
                 <TrafficLight status={status}/>
                 <Platform windows={platforms.windows} linux={platforms.linux} macOs={platforms.macOs} android={platforms.android}/>
             </div>

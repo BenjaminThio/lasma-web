@@ -1,15 +1,13 @@
 'use client';
 import  {type JSX, useState } from 'react';
-import styles from './page.module.css';
+import styles from './../auth.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
-import PasswordInputField from './../components/password';
+import PasswordInputField from './../../components/password';
 import Tilt from 'react-parallax-tilt';
-import { AddNewUser, type Email } from '@/utils/firestore';
-import { GenerateSalt, GenerateSessionId, SetCookie } from './auth';
-import { redirect } from 'next/navigation';
-import { Login } from './auth-client';
+import { type Email } from '@/utils/firestore';
+import { Login } from './../auth-client';
 
 export default function AuthPage(): JSX.Element {
     const [email, setEmail] = useState<Email>('' as Email);
@@ -45,24 +43,10 @@ export default function AuthPage(): JSX.Element {
                 </div>
                 <button className={`${styles['login-button']} ${styles['default']}`}
                 onClick={async () => {
-                    const salt: string = await GenerateSalt();
-                    const sessionId: string = await GenerateSessionId();
-
-                    AddNewUser(email, sessionId, {
-                        username: 'Benjamin Thio',
-                        password: password,
-                        salt: salt,
-                        email: email
-                    });
-                    await SetCookie(sessionId);
-                    redirect('/');
-                }}
-                >
-                    Sign Up
-                </button>
-                <button onClick={async () => {
                     await Login(email, password);
-                }}>Login</button>
+                }}>
+                    Login
+                </button>
                 <button className={`${styles['login-button']} ${styles['google']}`} style={{marginBottom: '2rem'}}>
                     <FontAwesomeIcon icon={faGoogle} style={{marginRight: '1rem'}}/>
                     Sign in with Google

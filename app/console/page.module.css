@@ -85,8 +85,21 @@
     width: calc(14rem + 81ch)
 }
 
+.loading {
+    animation: loading 2.5s infinite linear;
+}
 
-
+@keyframes loading {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
 
 
 

@@ -107,6 +107,17 @@ export async function GetApp(uuid: string): Promise<AppProps | null> {
     }
 }
 
+export async function GetAllAppsIDPropsPairs(): Promise<Record<string, AppProps>> {
+    const querySnapshot: QuerySnapshot<DocumentData, DocumentData> = await getDocs(collection(db, 'apps'));
+    const apps: Record<string, AppProps> = {};
+
+    querySnapshot.forEach((app) => {
+        apps[app.id] = app.data() as AppProps;
+    });
+
+    return apps;
+}
+
 export async function GetAllApps(): Promise<AppProps[]> {
     const querySnapshot: QuerySnapshot<DocumentData, DocumentData> = await getDocs(collection(db, 'apps'));
     const apps: AppProps[] = [];

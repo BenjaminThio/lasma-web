@@ -1,15 +1,18 @@
 import type { JSX } from 'react';
 import styles from './page.module.css';
 import AppCard from '../components/apps/app-card';
-import { AppProps, GetAllApps } from '@/utils/firestore';
+import { AppProps, GetAllAppsIDPropsPairs } from '@/utils/firestore';
 
 export default async function AppsPage(): Promise<JSX.Element> {
     async function GenerateAppCards() {
-        const apps: AppProps[] = await GetAllApps();
+        const apps: Record<string, AppProps> = await GetAllAppsIDPropsPairs();
+        const appIds: string[] = Object.keys(apps);
         const appCards: JSX.Element[] = [];
 
-        for (let i = 0; i < apps.length; i++) {
-            appCards.push(<AppCard thumnail={apps[i].info.thumbnail} name={apps[i].info.name} description={apps[i].info.description} status={apps[i].info.status} platforms={apps[i].info.platforms} tag={apps[i].info.tag} key={i}/>);
+        for (let i = 0; i < appIds.length; i++) {
+            const appId: string = appIds[i];
+
+            appCards.push(<AppCard link={`/app/${appId}`} thumnail={apps[appId].info.thumbnail} name={apps[appId].info.name} description={apps[appId].info.description} status={apps[appId].info.status} platforms={apps[appId].info.platforms} tag={apps[appId].info.tag} key={i}/>);
         }
 
         return appCards;
@@ -17,7 +20,9 @@ export default async function AppsPage(): Promise<JSX.Element> {
 
     return (
         <div className={styles.background}>
-            {GenerateAppCards()}
+            <div className={styles['main-container']}>
+                {GenerateAppCards()}
+            </div>
         </div>
     );
 }
