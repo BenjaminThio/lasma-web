@@ -87,7 +87,7 @@ export default function EditableAppCard({updateOnlyAppId=null, defaultName='', d
             userRef.current = user;
 
             if (user === null) {
-                redirect('/auth');
+                redirect('/auth/login');
             }
         }
         

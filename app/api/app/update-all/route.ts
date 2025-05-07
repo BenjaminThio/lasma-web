@@ -2,7 +2,7 @@ import { setDoc, doc } from 'firebase/firestore';
 import db from '@/utils/firestore';
 import { ImagePath2Base64 } from '@/utils/image';
 import { String2Boolean } from '@/utils/string-formatters';
-import placeholder from './../../../public/images/galaxy.png';
+import placeholder from './../../../../public/images/galaxy.png';
 import { StrictCheck } from '../../utils';
 import { Status, GetApp } from '@/utils/firestore';
 

@@ -8,6 +8,7 @@ import PasswordInputField from './../../components/password';
 import Tilt from 'react-parallax-tilt';
 import { type Email } from '@/utils/firestore';
 import { Login } from './../auth-client';
+import Link from 'next/link';
 
 export default function AuthPage(): JSX.Element {
     const [email, setEmail] = useState<Email>('' as Email);
@@ -53,9 +54,9 @@ export default function AuthPage(): JSX.Element {
                 </button>
                 <div>
                     {`Don't have a account? `}
-                    <span className={styles.underline}>
+                    <Link href={'/auth/sign-up'} style={{color: 'rgb(6, 35, 50)'}}>
                         Register one.
-                    </span>
+                    </Link>
                 </div>
             </Tilt>
         </div>

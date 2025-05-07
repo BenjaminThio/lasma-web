@@ -163,6 +163,17 @@ export async function AddNewUser(email: Email, session: string, {username, passw
     } as UserProps, {merge: false});
 }
 
+export async function GetAllUserIds(): Promise<string[]> {
+    const querySnapshot: QuerySnapshot<DocumentData, DocumentData> = await getDocs(collection(db, 'users'));
+    const userIds: string[] = [];
+
+    querySnapshot.forEach((user) => {
+        userIds.push(user.id);
+    });
+
+    return userIds;
+}
+
 export async function GetAllUsers(): Promise<UserProps[]> {
     const querySnapshot: QuerySnapshot<DocumentData, DocumentData> = await getDocs(collection(db, 'users'));
     const users: UserProps[] = [];

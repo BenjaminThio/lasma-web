@@ -64,7 +64,7 @@ export default function ConsolePage(): JSX.Element {
     const [maxValueTest, setMaxValueTest] = useState<number>(10);
     const [userProps, setUserProps] = useState<UserProps | null>(null);
     const [rows, setRows] = useState<JSX.Element[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false);
     const [dots, setDots] = useState<string>('');
 
     useEffect(() => {
@@ -84,7 +84,7 @@ export default function ConsolePage(): JSX.Element {
         async function FetchUser() {
             const user: UserProps | null = await GetUser();
             if (user === null) {
-                redirect('/auth');
+                redirect('/auth/login');
             }
             else {
                 setUserProps(user);
@@ -103,8 +103,6 @@ export default function ConsolePage(): JSX.Element {
             const appCount: number = user.apps.length;
 
             for (let i: number = 1; i <= (appCount > (maxValue > 100 ? 1000 : maxValue) ? (maxValue > 100 ? 1000 : maxValue) : appCount); i++) {
-                setLoading(true);
-
                 const appId: string = user.apps[i - 1];
                 const app: AppProps | null = await GetApp(appId);
 
@@ -129,8 +127,6 @@ export default function ConsolePage(): JSX.Element {
                         }}
                     ]}/>);
                 }
-
-                setLoading(false);
             }
         }
 

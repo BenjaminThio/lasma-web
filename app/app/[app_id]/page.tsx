@@ -5,7 +5,7 @@ import { AppProps, GetApp, LeaderboardProps } from "@/utils/firestore";
 import type { NextFont } from "next/dist/compiled/@next/font";
 import localFont from "next/font/local";
 import styles from './page.module.css';
-import Test from "./test";
+//import Test from "./test";
 
 interface ParamsProps {
     params: Promise<{app_id: string}>;
@@ -112,7 +112,7 @@ export default async function AppPage({params}: ParamsProps) {
                         null
                     }
                 </div>
-                <Test uuid={app_id}/>
+                {/*<Test uuid={app_id}/>*/}
             </div>
         );
     }
