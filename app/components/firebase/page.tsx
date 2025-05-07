@@ -1,4 +1,4 @@
-'use client';
+/*'use client';
 import { JSX, useRef } from 'react';
 import { CreateNewApp, Status, UpdateApp } from '@/utils/firestore';
 
@@ -24,6 +24,7 @@ export default function FirebaseTestPage(): JSX.Element {
                         category: 'Role Playing',
                         status: Status.Ready,
                         thumbnail: ''
+
                     },
                     leaderboard: {}
                 });
@@ -51,4 +52,4 @@ export default function FirebaseTestPage(): JSX.Element {
             }}>Update Status To Disabled</button>
         </div>
     );
-}
+}*/
