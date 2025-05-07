@@ -2,7 +2,7 @@ import { getFirestore, setDoc, updateDoc, doc, collection, getDoc, getDocs, Docu
 import app from './firebase-config';
 import { GetUser } from '@/app/auth/auth';
 
-const db = getFirestore(app);
+export const db = getFirestore(app);
 
 export type InfoField = 'name' | 'description' | 'category' | 'status' | 'thumbnail';
 export type AppField = 'ownerUUID' | 'isGlobal' | `info.${InfoField}` | 'leaderboard';
@@ -93,8 +93,8 @@ export async function MergeUpdateApp(uuid: string, name: string, description: st
                 macOs: platforms.macOs,
                 android: platforms.android
             }
-        },
-    });
+        }
+    }, {merge: true});
 }
 
 export async function GetApp(uuid: string): Promise<AppProps | null> {

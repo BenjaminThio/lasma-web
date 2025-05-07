@@ -22,3 +22,14 @@ export function Camel2Kebab(text: string) {
 
     return newText;
 }
+
+export function String2Boolean(value: string): boolean | undefined {
+    switch (value.toLowerCase()) {
+        case 'true':
+            return true;
+        case 'false':
+            return false;
+        default:
+            return undefined;
+    }
+}

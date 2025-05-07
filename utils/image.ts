@@ -47,3 +47,13 @@ export async function Images2Base64s(files: FileList | null): Promise<string[]> 
 
     return await Promise.all(base64s);
 }
+
+export async function IsValidImage(base64: string): Promise<boolean> {
+    const image = new Image();
+
+    return new Promise((resolve) => {
+        image.onload = () => {resolve(true);};
+        image.onerror = () => {resolve(false);};
+        image.src = base64;
+    });
+}
