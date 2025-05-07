@@ -64,7 +64,7 @@ export default function ConsolePage(): JSX.Element {
     const [maxValueTest, setMaxValueTest] = useState<number>(10);
     const [userProps, setUserProps] = useState<UserProps | null>(null);
     const [rows, setRows] = useState<JSX.Element[]>([]);
-    const [loading, setLoading] = useState<boolean>(false);
+    //const [loading, setLoading] = useState<boolean>(false);
     const [dots, setDots] = useState<string>('');
 
     useEffect(() => {
@@ -227,7 +227,7 @@ export default function ConsolePage(): JSX.Element {
                     {rows}
                 </tbody>
             </table>
-            {
+            {/*
                 loading
                 ? 
                 <div style={{
@@ -245,6 +245,7 @@ export default function ConsolePage(): JSX.Element {
                     </div>
                 </div>
                 :
+            */
                 userProps.apps.length > 0
                 ? 
                 null
