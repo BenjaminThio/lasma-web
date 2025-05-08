@@ -113,7 +113,7 @@ export async function POST(request: Request) {
                 android: String2Boolean(android as string) as boolean
             }
         },
-        leaderboard: {}
+        leaderboard: []
     };
 
     await setDoc(doc(db, 'apps', crypto.randomUUID()), appData);
