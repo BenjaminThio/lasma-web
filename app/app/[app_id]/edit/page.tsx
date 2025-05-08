@@ -32,7 +32,8 @@ export default function EditAppPage({params}: ParamsProps) {
     }, []);
 
     return (
-        <div style={{height: '100svh', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
+        <div style={{
+            height: '100svh', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
             {
                 appCard
             }

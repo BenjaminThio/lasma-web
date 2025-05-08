@@ -15,7 +15,11 @@ export default function Footer() {
             display: 'flex',
             flexDirection: 'column',
             fontSize: 'x-large',
-            padding: '5rem'
+            padding: '5rem',
+            height: 'fit-content',
+            width: 'calc(100% - 10rem)',
+            gap: '2rem',
+            overflow: 'auto'
         }}>
             <div style={{width: '100%', display: 'flex', justifyContent: 'space-around'}}>
             <span style={{display: 'flex', flexDirection: 'column', gap: '2rem'}}>

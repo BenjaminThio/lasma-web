@@ -32,12 +32,25 @@ export default function MainPage() {
 
     return (
         <>
-        <div className={fusionPixel12px.className} style={{minHeight: '100svh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            <div style={{display: 'flex'}}>
-                <div style={{fontSize: 'xx-large'}}>
+        <div className={fusionPixel12px.className} style={{
+            minHeight: '100svh',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+        }}>
+            <div style={{
+                display: 'flex'
+            }}>
+                <div style={{
+                    fontSize: 'xx-large'
+                }}>
                     {text}
                 </div>
-                <div style={{flexGrow: 1, width: '0.3rem', backgroundColor: 'white'}} className={styles.cursor}/>
+                <div style={{
+                    flexGrow: 1,
+                    width: '0.3rem',
+                    backgroundColor: 'white'
+                }} className={styles.cursor}/>
             </div>
         </div>
         <Footer/>

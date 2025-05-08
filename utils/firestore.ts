@@ -35,7 +35,14 @@ export interface AppProps {
     ownerUUID: string;
     isGlobal: boolean;
     info: InfoProps;
-    leaderboard: LeaderboardProps;
+    leaderboard: PlayerProps[];
+}
+
+export interface PlayerProps {
+    name: string;
+    score: number;
+    datetime: string;
+    id: string;
 }
 
 export interface PlatformsProps {
@@ -183,16 +190,6 @@ export async function GetAllUsers(): Promise<UserProps[]> {
     });
 
     return users;
-}
-
-export interface PlayerProps {
-    name: string,
-    score: number,
-    datetime: string
-}
-
-export interface LeaderboardProps {
-    [id: string]: PlayerProps;
 }
 
 export async function AddNewPlayer(uuid: string, playerConfig: PlayerProps) {

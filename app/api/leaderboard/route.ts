@@ -184,11 +184,14 @@ export async function POST(request: Request) {
             const playerProps: PlayerProps = {
                 name: playerName,
                 score: parseInt(playerScore),
-                datetime: new Date().toUTCString()
+                datetime: new Date().toUTCString(),
+                id: playerId as string
             };
 
+            app.leaderboard.push(playerProps);
+            
             await updateDoc(doc(db, 'apps', appId), {
-                [`leaderboard.${playerId}`]:  playerProps
+                leaderboard: app.leaderboard.sort((a: PlayerProps, b: PlayerProps) => b.score - a.score)
             });
 
             app = await GetApp(appId);
@@ -376,11 +379,12 @@ export async function PUT(request: Request) {
                     const playerProps: PlayerProps = {
                         name: newPlayerName,
                         score: parseInt(newPlayerScore),
-                        datetime: new Date().toUTCString()
+                        datetime: new Date().toUTCString(),
+                        id: playerId
                     };
 
                     await updateDoc(doc(db, 'apps', appId), {
-                        [`leaderboard.${playerId}`]:  playerProps
+                        leaderboard: app.leaderboard.sort((a: PlayerProps, b: PlayerProps) => b.score - a.score)
                     });
 
                     app = await GetApp(appId);
@@ -477,7 +481,12 @@ export async function DELETE(request: Request) {
                         }
                     );
                 } else {
-                    delete app.leaderboard[playerId];
+                    for (let i: number = 0; i < app.leaderboard.length; i++) {
+                        if (app.leaderboard[i].id === playerId)
+                        {
+                            delete app.leaderboard[i];
+                        }
+                    }
 
                     await updateDoc(doc(db, 'apps', appId), {
                         leaderboard: app.leaderboard

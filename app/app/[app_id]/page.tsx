@@ -1,7 +1,7 @@
 //'use client;'
 //import { use } from 'react';
 
-import { AppProps, GetApp, LeaderboardProps } from "@/utils/firestore";
+import { AppProps, GetApp, PlayerProps } from "@/utils/firestore";
 import type { NextFont } from "next/dist/compiled/@next/font";
 import localFont from "next/font/local";
 import styles from './page.module.css';
@@ -58,12 +58,11 @@ function Row({no, name, id, score, datetime}: RowProps) {
 }
 
 export default async function AppPage({params}: ParamsProps) {
-    function GenerateRows(leaderboard: LeaderboardProps) {
-        const leaderboardEntries = Object.entries(leaderboard);
+    function GenerateRows(leaderboard: PlayerProps[]) {
         const rows = [];
 
-        for (let i: number = 0; i < leaderboardEntries.length; i++) {
-            const [id, {name, score, datetime}] = leaderboardEntries[i];
+        for (let i: number = 0; i < leaderboard.length; i++) {
+            const {name, score, datetime, id} = leaderboard[i];
             rows.push(<Row no={i + 1} name={name} id={id} score={score} datetime={datetime} key={i}/>);
         }
         return rows;
@@ -73,7 +72,7 @@ export default async function AppPage({params}: ParamsProps) {
     const app: AppProps | null = await GetApp(app_id);
 
     if (app !== null) {
-        const leaderboard: LeaderboardProps = app.leaderboard;
+        const leaderboard: PlayerProps[] = app.leaderboard;
 
         return (
             <div className={`${determinationFont.className} ${styles['main-container']}`}>
@@ -118,7 +117,12 @@ export default async function AppPage({params}: ParamsProps) {
     }
     else {
         return (
-            <div style={{height: '100svh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <div style={{
+                height: '100svh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+            }}>
                 App Not Found
             </div>
         );
