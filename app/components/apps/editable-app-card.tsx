@@ -245,7 +245,7 @@ export default function EditableAppCard({updateOnlyAppId=null, defaultName='', d
                         },
                         ownerUUID: user.info.email,
                         isGlobal: true,
-                        leaderboard: {}
+                        leaderboard: []
                     });
                 }
             }
