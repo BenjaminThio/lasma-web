@@ -5,6 +5,7 @@ import styles from './page.module.css';
 import { useEffect, useState } from 'react';
 import { sleep } from '@/utils/time';
 import Footer from './components/footer/footer';
+import EditorCard from './components/code-editor/editor-card';
 
 const fusionPixel12px: NextFont = localFont({
     src: './../public/fonts/fusion-pixel-12px-monospaced-zh_hans.otf'
@@ -33,10 +34,12 @@ export default function MainPage() {
     return (
         <>
         <div className={fusionPixel12px.className} style={{
-            minHeight: '100svh',
+            marginTop: '20rem',
+            minHeight: '100%',
             display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            flexDirection: 'column',
+            gap: '21.5rem'
         }}>
             <div style={{
                 display: 'flex'
@@ -52,6 +55,7 @@ export default function MainPage() {
                     backgroundColor: 'white'
                 }} className={styles.cursor}/>
             </div>
+            <EditorCard/>
         </div>
         <Footer/>
         </>
