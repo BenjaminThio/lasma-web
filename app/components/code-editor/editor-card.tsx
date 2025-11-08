@@ -47,7 +47,7 @@ function DisplayCode(data: any): Array<JSX.Element> {
         display.push(
             <div style={{display: 'flex'}} key={i}>
                 <div style={{paddingRight: '0.7rem', color: 'gray'}}>
-                    { i }
+                    { i + 1 }
                 </div>
                 <div style={{whiteSpace: 'pre'}}>
                     { splitData[i] }

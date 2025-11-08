@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faGithub, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { faMugHot } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
+import styles from './footer.module.css';
 
 const fusionPixel12px: NextFont = localFont({
     src: './../../../public/fonts/fusion-pixel-12px-monospaced-zh_hans.otf'
@@ -11,17 +12,8 @@ const fusionPixel12px: NextFont = localFont({
 
 export default function Footer() {
     return (
-        <footer className={fusionPixel12px.className} style={{
-            display: 'flex',
-            flexDirection: 'column',
-            fontSize: 'x-large',
-            padding: '5rem',
-            height: 'fit-content',
-            width: 'calc(100% - 10rem)',
-            gap: '2rem',
-            overflow: 'auto'
-        }}>
-            <div style={{width: '100%', display: 'flex', justifyContent: 'space-around'}}>
+        <footer className={`${fusionPixel12px.className} ${styles['main-container']}`}>
+            <div className={styles['footer-upper']}>
             <span style={{display: 'flex', flexDirection: 'column', gap: '2rem'}}>
                 <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
                     <div style={{fontWeight: 'bold'}}>Brand</div>
@@ -46,8 +38,8 @@ export default function Footer() {
                 <div style={{fontSize: 'large'}}>
                     Benjamin Thio
                 </div>
-            </span>
-            <span style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
+            </span> 
+            <span style={{display: 'flex',flexDirection: 'column', gap: '1rem'}}>
                 <div style={{fontWeight: 'bold'}}>
                     Copyrights
                 </div>
