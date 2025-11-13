@@ -1,3 +1,4 @@
+'use client';
 import {type JSX} from 'react';
 import JsonLogo from './../../../public/json.png';
 import Cross from './../../../public/cross.png';
