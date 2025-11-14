@@ -2,9 +2,9 @@
     display: flex;
     flex-direction: column;
     font-size: x-large;
-    padding: 5rem;
+    padding: 3rem;
     height: fit-content;
-    width: calc(100% - 10rem);
+    width: calc(100% - 6rem);
     gap: 2rem;
     overflow: auto;
 }
@@ -18,6 +18,10 @@
 }
 
 @media (min-width: 768px) {
+    .main-container {
+        padding: 5rem;
+        width: calc(100% - 10rem);
+    }
     .footer-upper {
         width: 100%;
         display: flex;

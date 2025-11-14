@@ -17,10 +17,7 @@ const title: string = 'Add a Leaderboard to your game.';
 
 export default function MainPage() {
     const [text, setText] = useState<Array<JSX.Element>>([
-        <span style={{
-            width: '0.3rem',
-            backgroundColor: 'white'
-        }} className={styles.cursor} key={0}/>
+        <span className={styles.cursor} key={0}/>
     ]);
 
     useEffect(() => {
@@ -30,7 +27,7 @@ export default function MainPage() {
                     const newText: Array<JSX.Element> = [...prev];
 
                     newText.splice(i, 0,
-                    <span style={{fontSize: 'xx-large', whiteSpace: 'pre'}} key={i + 1}>
+                    <span style={{whiteSpace: 'pre'}} key={i + 1}>
                         { title.charAt(i) }
                     </span>);
 
@@ -54,12 +51,7 @@ export default function MainPage() {
             gap: '21.5rem',
             // backgroundColor: 'cyan'
         }}>
-            <div style={{
-                marginTop: '20rem',
-                display: 'flex',
-                minHeight: '32px',
-                flexWrap: 'wrap'
-            }}>
+            <div className={styles.description}>
                 {text}
             </div>
             <EditorCard/>

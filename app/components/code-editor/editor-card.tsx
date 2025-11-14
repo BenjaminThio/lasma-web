@@ -4,6 +4,7 @@ import JsonLogo from './../../../public/json.png';
 import Cross from './../../../public/cross.png';
 import Image from 'next/image';
 import LightBulb from '../apps/light-bulb';
+import styles from './editor.module.css';
 
 const DATA = {
     "success": {
@@ -62,16 +63,7 @@ function DisplayCode(data: any): Array<JSX.Element> {
 
 export default function EditorCard() {
     return (
-    <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            minWidth: '50svw',
-            borderRadius: '0.5rem',
-            overflow: 'clip',
-            boxShadow: 'inset 0 0 0.5rem 0.3rem rgb(255, 255, 255, 0.3)',
-            marginBottom: '10rem',
-            paddingBottom: '1.5rem'
-        }}>
+    <div className={styles.card}>
         <div style={{
             display: 'flex',
             flexDirection: 'row',

@@ -1,5 +1,8 @@
 .cursor {
+    width: 0.3rem;
+    background-color: white;
     animation: fading 1s linear infinite;
+    min-height: 24px;
 }
 
 @keyframes fading {
@@ -11,5 +14,26 @@
     }
     100% {
         opacity: 1;
+    }
+}
+
+.description {
+    margin-top: 20rem;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 1.5rem;
+    min-height: 24px;
+    justify-content: center;
+}
+
+@media (min-width: 768px) {
+    .description {
+        font-size: 3rem;
+        min-height: 48px;
+    }
+
+    .cursor {
+        width: 0.5rem;
+        min-height: 48px;
     }
 }
