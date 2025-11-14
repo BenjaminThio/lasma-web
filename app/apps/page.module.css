@@ -5,6 +5,6 @@
 .main-container {
     margin-top: 4rem;
     display: grid;
-    grid-template-columns: auto auto auto auto auto auto auto;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
     row-gap: 0.5rem;
 }
