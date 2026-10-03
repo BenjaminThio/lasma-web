@@ -1,35 +1,47 @@
 {
-  "name": "best-app",
-  "version": "0.1.0",
+  "name": "lasma-studio",
+  "version": "1.0.0",
   "private": true,
+  "engines": {
+    "bun": ">=1.4.2"
+  },
+  "description": "Hosted leaderboards for indie games — create an app, grab its keys, post scores over HTTP.",
+  "packageManager": "bun@1.4.2",
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "bun --bun next dev",
+    "build": "bun --bun next build",
+    "start": "bun --bun next start",
+    "smoke": "bun scripts/smoke.ts",
+    "lint": "eslint .",
+    "typecheck": "next typegen && tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "bun run typecheck && bun run lint && bun run format:check",
+    "migrate:legacy": "bun --conditions=react-server scripts/migrate-legacy.ts"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.7.2",
-    "@fortawesome/free-brands-svg-icons": "^6.7.2",
-    "@fortawesome/free-solid-svg-icons": "^6.7.2",
-    "@fortawesome/react-fontawesome": "^0.2.2",
-    "firebase": "^11.6.0",
-    "next": "^15.3.1",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-parallax-tilt": "^1.7.289"
+    "@fortawesome/fontawesome-common-types": "^7.3.1",
+    "@fortawesome/free-brands-svg-icons": "^7.3.1",
+    "@fortawesome/free-solid-svg-icons": "^7.3.1",
+    "firebase-admin": "^14.4.0",
+    "next": "^16.3.5",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "server-only": "^0.0.1",
+    "sharp": "^0.35.4",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@types/node": "^22.15.2",
-    "@types/react": "19.1.2",
-    "@types/react-dom": "19.1.2",
-    "eslint": "^9",
-    "eslint-config-next": "^15.3.1",
-    "typescript": "^5"
-  },
-  "overrides": {
-    "@types/react": "19.1.2",
-    "@types/react-dom": "19.1.2"
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^24.13.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.3.5",
+    "prettier": "^3.9.7",
+    "prettier-plugin-tailwindcss": "^0.8.1",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3"
   }
 }

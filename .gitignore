@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+build/
+dist/
+
+# Environment variables (keep the example)
+.env*
+!.env.example
+
+# Firebase emulator & debug logs
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
+*.log
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Editors & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+
+# Tooling caches
+.eslintcache
+coverage/
