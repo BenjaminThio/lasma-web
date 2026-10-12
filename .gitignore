@@ -11,6 +11,10 @@ dist/
 .env*
 !.env.example
 
+# Firebase service-account keys (downloaded from the Firebase console; never commit)
+*-firebase-adminsdk-*.json
+serviceAccount*.json
+
 # Firebase emulator & debug logs
 firebase-debug.log*
 firestore-debug.log*
